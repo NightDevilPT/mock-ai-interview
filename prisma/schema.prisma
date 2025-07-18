@@ -1,0 +1,149 @@
+// schema.prisma
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("MONGODB_URI") 
+}
+
+enum SessionStatus {
+  DRAFT
+  GENERATED
+  IN_PROGRESS
+  COMPLETED
+  EVALUATED
+}
+
+enum AuthProvider {
+  EMAIL
+  GOOGLE
+  GITHUB
+  LINKEDIN
+}
+
+type QuestionOption {
+  id    String
+  text  String
+  value String
+}
+
+type Constraints {
+  minLength Int?
+  maxLength Int?
+}
+
+type Evaluation {
+  strengths         EvaluationItem[]
+  improvements      EvaluationItem[]
+  betterAnswerExample String?
+}
+
+type EvaluationItem {
+  id          String
+  title       String
+  description String
+}
+
+type Resource {
+  title String
+  url   String
+}
+
+model User {
+  id           String     @id @default(auto()) @map("_id") @db.ObjectId
+  email        String     @unique
+  password     String?
+  firstName    String
+  lastName     String
+  avatar       String?
+  bio          String?
+  isVerified   Boolean    @default(false)
+  authProvider AuthProvider @default(EMAIL)
+  refreshToken String?
+  resetToken   String?
+  resetTokenExpires DateTime?
+  sessions     InterviewSession[]
+  responses    InterviewQuestionResponse[]
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+
+  @@index([isVerified])
+}
+
+model InterviewSession {
+  id           String     @id @default(auto()) @map("_id") @db.ObjectId
+  userId       String?    @db.ObjectId
+  user         User?      @relation(fields: [userId], references: [id])
+  careerLevel  String
+  experience   String
+  domain       String
+  difficulty   String
+  questionFormats String[]
+  focusAreas   String?
+  status       SessionStatus @default(DRAFT)
+  metadata     Json
+  questions    Question[]
+  responses    InterviewQuestionResponse[]
+  feedback     InterviewFeedback?
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+
+  @@index([userId])
+  @@index([status])
+}
+
+model Question {
+  id            String     @id @default(auto()) @map("_id") @db.ObjectId
+  sessionId     String     @db.ObjectId
+  session       InterviewSession @relation(fields: [sessionId], references: [id])
+  text          String
+  format        String
+  category      String
+  difficulty    String
+  estimatedTime Int
+  points        Int
+  order         Int
+  options       QuestionOption[]
+  constraints   Constraints?
+  hints         String[]
+  tags          String[]
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+  responses     InterviewQuestionResponse[]
+
+  @@index([sessionId])
+}
+
+model InterviewQuestionResponse {
+  id          String     @id @default(auto()) @map("_id") @db.ObjectId
+  sessionId   String     @db.ObjectId
+  session     InterviewSession @relation(fields: [sessionId], references: [id])
+  userId      String?    @db.ObjectId
+  user        User?      @relation(fields: [userId], references: [id])
+  questionId  String     @db.ObjectId
+  question    Question   @relation(fields: [questionId], references: [id])
+  answer      Json
+  answeredAt  DateTime
+  score       Int?
+  evaluation  Evaluation?
+  createdAt   DateTime   @default(now())
+
+  @@index([sessionId])
+  @@index([questionId])
+  @@index([userId])
+}
+
+model InterviewFeedback {
+  id                  String     @id @default(auto()) @map("_id") @db.ObjectId
+  sessionId   String     @unique @db.ObjectId
+  session     InterviewSession @relation(fields: [sessionId], references: [id])
+  overallScore        Int
+  topStrengths        EvaluationItem[]
+  improvementAreas    EvaluationItem[]
+  resources           Resource[]
+  motivationalSummary String
+  aiAnalysis          Json
+  createdAt           DateTime   @default(now())
+}

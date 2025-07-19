@@ -1,5 +1,36 @@
 {
 	"general": {
 		"welcome": "Welcome to Mock AI Interview"
+	},
+	"server": {
+		"error": {
+			"invalidOtp": "Invalid OTP. Please try again.",
+			"allFieldsAreRequired": "All fields are required.",
+			"otpExpired": "OTP has expired. Please request a new one.",
+			"internalServerError": "Internal server error. Please try again later.",
+
+			"emailIsRequired": "Email is required.",
+			"userNotVerified": "User is not verified.",
+			"userAlreadyExists": "User already exists.",
+			"userDoesNotExist": "User does not exist.",
+			"invalidEmailFormat": "Invalid email format.",
+			"userAlreadyVerified": "User is already verified.",
+			"userCreatedSuccessfully": "User created successfully.",
+			"invalidCredentials": "Invalid credentials. Please try again.",
+			"passwordMustContainAtLeastOneDigit": "Password must contain at least one digit.",
+			"passwordMustBeAtLeast8Characters": "Password must be at least 8 characters long.",
+			"passwordMustContainsAtLeastOneLowercaseLetter": "Password must contain at least one lowercase letter.",
+			"passwordMustContainAtLeastOneUppercaseLetter": "Password must contain at least one uppercase letter.",
+			"passwordMustContainAtLeastOneSpecialCharacter": "Password must contain at least one special character."
+		},
+		"success": {
+			"userVerifiedSuccessfully": "User verified successfully.",
+			"userLoggedInSuccessfully": "User logged in successfully.",
+			"userLoggedOutSuccessfully": "User logged out successfully.",
+			"verificationMailSent": "Verification email sent successfully.",
+			"passwordUpdatedSuccessfully": "Password updated successfully.",
+			"otpSentForPasswordReset": "OTP sent to your email address for password reset.",
+			"userCreatedVerificationEmailSent": "User created successfully. A verification email has been sent to your email address."
+		}
 	}
 }

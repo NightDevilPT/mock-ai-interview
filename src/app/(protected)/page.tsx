@@ -2,8 +2,7 @@
 "use client"; // Only needed if using Next.js App Router
 
 import { useTranslation } from "react-i18next";
-import "../lib/i18n"; // Import the i18n configuration
-import { LanguageSwitcher } from "@/components/atoms/language-switcher";
+
 
 export default function Home() {
 	const { t, ready } = useTranslation();

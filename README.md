@@ -37,434 +37,318 @@ This Proof of Concept (POC) will demonstrate a mock interview generator using Ge
 -   Other users can attempt public sessions
 -   Session creators can track attempts and performance
 
-## Enhanced Requirements
 
-### Input Parameters (Extended)
+## Prompt Template Example to Generate Questions
 
-```typescript
-interface InterviewRequest {
-	title: string;
-	description?: string;
-	careerLevel: "Entry" | "Junior" | "Mid" | "Senior" | "Lead" | "Principal";
-	experience: "0-2 years" | "2-5 years" | "5-10 years" | "10+ years";
-	domain: string; // e.g., "Software Engineering", "Data Science"
-	questionCount: number; // Range: 1-50
-	questionTypes: Array<
-		| "MULTIPLE_CHOICE"
-		| "CHECKBOX"
-		| "TEXT"
-		| "DROPDOWN"
-		| "RATING"
-		| "CODING"
-	>;
-	focusAreas?: string[]; // e.g., ["React", "System Design"]
-	difficulty: "EASY" | "MEDIUM" | "HARD" | "MIXED";
-	isPublic?: boolean; // Whether session can be shared publicly
-	estimatedDuration: number; // Total time in seconds
-	scoringCriteria: {
-		technical: number; // Percentage weight
-		behavioral: number;
-		situational: number;
-	};
-}
-```
+```ts
+const universalInterviewPrompt = new PromptTemplate({
+	template: `
+  You are an expert interview designer creating questions for all career types. 
+  Generate {totalQuestions} questions based on these parameters:
 
-### Enhanced Response Structure
+  ### Interview Parameters:
+  - Title: {title}
+  - Description: {description}
+  - Career Level: {careerLevel}
+  - Experience: {experience}
+  - Domain: {domain}
+  - Difficulty: {difficulty}
+  - Question Types: {questionTypes}
+  - Focus Areas: {focusAreas}
 
-```typescript
-interface InterviewResponse {
-	success: boolean;
-	data: {
-		sessionId: string; // Unique identifier for the session
-		shareToken?: string; // Token for public sharing
-		metadata: {
-			questionCount: number;
-			estimatedDuration: number; // Total time in seconds
-			difficulty: string;
-			domain: string;
-			generatedAt: string; // ISO timestamp
-			focusAreas: string[];
-			scoringCriteria: {
-				technical: number; // Percentage weight
-				behavioral: number;
-				situational: number;
-			};
-		};
-		questions: Array<{
-			questionId: string; // e.g., "q_001"
-			text: string;
-			type:
-				| "MULTIPLE_CHOICE"
-				| "CHECKBOX"
-				| "TEXT"
-				| "DROPDOWN"
-				| "RATING"
-				| "CODING";
-			category: string;
-			difficulty: "EASY" | "MEDIUM" | "HARD";
-			estimatedTime: number; // Seconds
-			points: number;
-			order: number;
-			options?: Array<{
-				id: string;
-				text: string;
-			}>;
-			constraints?: {
-				minLength?: number;
-				maxLength?: number;
-			};
-			hints?: string[];
-			tags?: string[];
-			idealAnswer?: string; // For AI evaluation
-		}>;
-	};
-	error?: {
-		code: string; // e.g., "INVALID_INPUT"
-		message: string;
-		details?: any;
-	};
-}
-```
+  ### Required JSON Format:
+  {
+    "metadata": {
+      "title": "{title}",
+      "description": "{description}",
+      "careerLevel": "{careerLevel}",
+      "experience": "{experience}",
+      "domain": "{domain}",
+      "difficulty": "{difficulty}",
+      "questionTypes": {questionTypes},
+      "focusAreas": {focusAreas},
+      "totalQuestions": {totalQuestions},
+      "totalPoints": "sum of all question points",
+      "estimatedDuration": "sum of all durations"
+    },
+    "questions": [
+      {
+        "text": "string", // Plain text fallback
+        "content": [
+          {
+            "type": "paragraph",
+            "data": {
+              "text": "string" 
+            },
+            "order": 1
+          },
+          {
+            "type": "list",
+            "data": {
+              "items": ["string"],
+              "style": "ordered|unordered"
+            },
+            "order": 2
+          },
+          {
+            "type": "code",
+            "data": {
+              "code": "string",
+              "language": "string"
+            },
+            "order": 3
+          },
+          {
+            "type": "media",
+            "data": {
+              "url": "string",
+              "caption": "string",
+              "altText": "string"
+            },
+            "order": 4
+          },
+          {
+            "type": "table",
+            "data": {
+              "headers": ["string"],
+              "rows": [
+                {
+                  "cells": ["string"]
+                }
+              ]
+            },
+            "order": 5
+          }
+        ],
+        "type": "MULTIPLE_CHOICE|CHECKBOX|TEXT|DROPDOWN|RATING|CODING",
+        "category": "string",
+        "difficulty": "EASY|MEDIUM|HARD",
+        "estimatedDuration": number,
+        "points": number,
+        "order": number,
+        "options": ["string"],
+        "constraints": ["string"],
+        "hints": ["string"],
+        "tags": ["string"],
+        "idealAnswer": "string"
+      }
+    ]
+  }
 
-## Database Collections
+  ### Content Block Rules:
+  1. Each question must have at least one content block
+  2. Order must be sequentially numbered starting from 1
+  3. Maintain consistent block types:
+     - paragraph: For regular text
+     - list: For bullet points (use "ordered" for numbered)
+     - code: For code snippets (specify language)
+     - media: For images/diagrams (include alt text)
+     - table: For tabular data
 
-Here are the properly typed collections for your AI-based mock interview platform:
+  ### Example Question:
+  {
+    "text": "Explain React hooks and list 3 commonly used ones",
+    "content": [
+      {
+        "type": "paragraph",
+        "data": {
+          "text": "React hooks allow you to use state and other React features without writing classes."
+        },
+        "order": 1
+      },
+      {
+        "type": "list",
+        "data": {
+          "items": [
+            "useState - For state management",
+            "useEffect - For side effects",
+            "useContext - For global state"
+          ],
+          "style": "unordered"
+        },
+        "order": 2
+      }
+    ],
+    "type": "TEXT",
+    "category": "React",
+    "difficulty": "MEDIUM",
+    "estimatedDuration": 120,
+    "points": 10,
+    "order": 1,
+    "constraints": { mix : 20, max : 100 },
+    "hints": ["Think about lifecycle methods"],
+    "tags": ["react", "hooks", "frontend"],
+    "idealAnswer": "React hooks are functions that let you hook into React state... (full answer)"
+  }
 
-### User Collection
-
-```typescript
-interface User {
-	id: string; // ObjectId
-	email: string; // Unique
-	password?: string;
-	firstName: string;
-	lastName: string;
-	avatar?: string;
-	bio?: string;
-	authProvider: "EMAIL" | "GOOGLE" | "GITHUB" | "LINKEDIN";
-	isVerified: boolean;
-	token?: string; // Unique
-	tokenExpired?: Date;
-
-	// Dashboard analytics
-	totalSessionsCreated: number;
-	totalAttempts: number;
-	averageScore?: number;
-	strongestDomain?: string;
-	improvementAreas: string[];
-	lastActive?: Date;
-
-	// Relations
-	createdSessions: InterviewSession[];
-	attempts: AttemptedSession[];
-	responses: InterviewQuestionResponse[];
-
-	createdAt: Date;
-	updatedAt: Date;
-}
-```
-
-### InterviewSession Collection
-
-```typescript
-interface InterviewSession {
-	id: string; // ObjectId
-	title: string;
-	description?: string;
-	careerLevel: string;
-	experience: string;
-	domain: string;
-	difficulty: "EASY" | "MEDIUM" | "HARD" | "MIXED";
-	questionTypes: (
-		| "MULTIPLE_CHOICE"
-		| "CHECKBOX"
-		| "TEXT"
-		| "DROPDOWN"
-		| "RATING"
-		| "CODING"
-	)[];
-	focusAreas: string[];
-	isPublic: boolean;
-	shareToken?: string; // Unique token for public sharing
-	status: "DRAFT" | "PUBLISHED" | "ARCHIVED";
-
-	// Metadata
-	estimatedDuration: number;
-	scoringCriteria: {
-		technical: number;
-		behavioral: number;
-		situational: number;
-	};
-
-	// Relations
-	creator: User;
-	creatorId: string;
-	questions: Question[];
-	attempts: AttemptedSession[];
-
-	createdAt: Date;
-	updatedAt: Date;
-}
-```
-
-### Question Collection
-
-```typescript
-interface Question {
-	id: string; // ObjectId
-	text: string;
-	type:
-		| "MULTIPLE_CHOICE"
-		| "CHECKBOX"
-		| "TEXT"
-		| "DROPDOWN"
-		| "RATING"
-		| "CODING";
-	category: string;
-	difficulty: "EASY" | "MEDIUM" | "HARD";
-	estimatedTime: number; // seconds, default 60
-	order: number;
-	points: number; // default 10
-	options?: Array<{
-		id: string;
-		text: string;
-	}>; // For MCQs
-	constraints?: {
-		minLength?: number;
-		maxLength?: number;
-	};
-	hints: string[];
-	tags: string[];
-	idealAnswer?: string;
-
-	// Relations
-	session: InterviewSession;
-	sessionId: string;
-	responses: InterviewQuestionResponse[];
-
-	createdAt: Date;
-	updatedAt: Date;
-}
-```
-
-### AttemptedSession Collection
-
-```typescript
-interface AttemptedSession {
-	id: string; // ObjectId
-	status: "STARTED" | "COMPLETED" | "EVALUATED" | "ABANDONED";
-	score?: number;
-	timeTaken?: number; // in seconds
-	startedAt: Date;
-	completedAt?: Date;
-
-	// Relations
-	originalSession: InterviewSession;
-	originalSessionId: string;
-	user: User;
-	userId: string;
-	responses: InterviewQuestionResponse[];
-	feedback?: InterviewFeedback;
-
-	createdAt: Date;
-	updatedAt: Date;
-}
-```
-
-### InterviewQuestionResponse Collection
-
-```typescript
-interface InterviewQuestionResponse {
-	id: string; // ObjectId
-	answer: any; // Can be string, string[], or object
-	score?: number;
-	timeTaken?: number; // in seconds
-	answeredAt: Date;
-
-	// Relations
-	question: Question;
-	questionId: string;
-	attempt: AttemptedSession;
-	attemptId: string;
-	user?: User;
-	userId?: string;
-}
-```
-
-### InterviewFeedback Collection
-
-```typescript
-interface InterviewFeedback {
-	id: string; // ObjectId
-	overallScore: number;
-	strengths: Array<{
-		id: string;
-		title: string;
-		description: string;
-	}>;
-	improvementAreas: Array<{
-		id: string;
-		title: string;
-		description: string;
-	}>;
-	resources: Array<{
-		title: string;
-		url: string;
-	}>;
-	aiAnalysis?: any;
-	motivationalSummary: string;
-
-	// Relations
-	attempt: AttemptedSession;
-	attemptId: string; // Unique
-
-	createdAt: Date;
-}
-```
-
-## Database Relationships
-
-### Key Relationships:
-
-1. **User → InterviewSession** (One-to-Many)
-
-    - A user can create multiple interview sessions
-    - Each session belongs to one creator
-
-2. **InterviewSession → Question** (One-to-Many)
-
-    - A session contains multiple questions
-    - Each question belongs to one session
-
-3. **User → AttemptedSession** (One-to-Many)
-
-    - A user can attempt multiple sessions
-    - Each attempt belongs to one user
-
-4. **InterviewSession → AttemptedSession** (One-to-Many)
-
-    - A session can be attempted by multiple users
-    - Each attempt references one original session
-
-5. **AttemptedSession → InterviewQuestionResponse** (One-to-Many)
-
-    - An attempt contains multiple responses
-    - Each response belongs to one attempt
-
-6. **Question → InterviewQuestionResponse** (One-to-Many)
-
-    - A question can have multiple responses across attempts
-    - Each response answers one question
-
-7. **AttemptedSession → InterviewFeedback** (One-to-One)
-    - Each attempt has one feedback record
-    - Each feedback belongs to one attempt
-
-## Public Session Features
-
-### Session Sharing Flow:
-
-1. **Create Session**: User creates an interview session with `isPublic: true`
-2. **Generate Share Token**: System generates unique `shareToken` for public access
-3. **Share Session**: Creator shares the session via token/link
-4. **Attempt Session**: Other users can attempt the session using the share token
-5. **Track Attempts**: Creator can view all attempts and performance analytics
-
-### Public Session Access:
-
--   **Public Sessions**: Accessible via share token without authentication
--   **Analytics**: Creators can view aggregated attempt statistics
--   **Privacy**: Individual attempt details are private to the attempter
-
-## Enhanced Prompt Templates
-
-### Question Generation Prompt
-
-```javascript
-const interviewPromptTemplate = new PromptTemplate({
+  Now generate questions matching these specifications.
+  `,
 	inputVariables: [
-		"experience",
+		"title",
+		"description",
 		"careerLevel",
+		"experience",
 		"domain",
-		"numberOfQuestions",
+		"difficulty",
 		"questionTypes",
 		"focusAreas",
-		"difficulty",
+		"isPublic",
+		"totalQuestions",
 	],
-	template: `
-	You are an expert {domain} interview coach with deep knowledge of the industry.
-	Generate a mock interview session with {numberOfQuestions} questions for a {careerLevel}-level candidate
-	with {experience} of experience.
-
-	**Parameters:**
-	- Domain: {domain}
-	- Experience: {experience}
-	- Career Level: {careerLevel}
-	- Difficulty: {difficulty}
-	- Question Types: {questionTypes.join(", ")}
-	- Focus Areas: {focusAreas.join(", ")}
-
-	**Output Format:**
-	Return ONLY valid JSON matching the Question schema structure with proper types and all required fields.
-	`,
 });
 ```
 
-### Evaluation Prompt
+## Database Model Relation Mermaid
 
-```javascript
-const evaluationPromptTemplate = new PromptTemplate({
-	inputVariables: ["questions", "answers", "userProfile"],
-	template: `
-	Analyze the interview performance of a {userProfile.careerLevel} {userProfile.domain} candidate
-	with {userProfile.experience} experience.
+```mermaid
 
-	**Questions & Answers:**
-	{JSON.stringify({ questions, answers }, null, 2)}
+erDiagram
+    User {
+        ObjectId id PK
+        string email UK
+        string password
+        string firstName
+        string lastName
+        string avatar
+        string bio
+        AuthProvider authProvider
+        boolean isVerified
+        string token
+        DateTime tokenExpired
+        int totalSessionsCreated
+        int totalAttempts
+        float averageScore
+        string strongestDomain
+        string[] improvementAreas
+        DateTime lastActive
+        DateTime createdAt
+        DateTime updatedAt
+    }
 
-	**Provide:**
-	1. Overall score (0-100)
-	2. Detailed feedback per question
-	3. Top 3 strengths
-	4. Top 3 improvement areas
-	5. Recommended resources
-	6. Motivational summary
+    InterviewSession {
+        ObjectId id PK
+        string title
+        string description
+        CareerLevel careerLevel
+        ExperienceLevel experience
+        string domain
+        Difficulty difficulty
+        QuestionType[] questionTypes
+        string[] focusAreas
+        boolean isPublic
+        string shareToken UK
+        SessionStatus status
+        int totalQuestions
+        int totalPoints
+        ObjectId creatorId FK
+        DateTime createdAt
+        DateTime updatedAt
+    }
 
-	Return as JSON matching the InterviewFeedback schema structure.
-	`,
-});
+    Question {
+        ObjectId id PK
+        string text
+        QuestionType type
+        string category
+        Difficulty difficulty
+        int estimatedDuration
+        int order
+        int points
+        QuestionOption[] options
+        QuestionConstraints constraints
+        string[] hints
+        string[] tags
+        ObjectId sessionId FK
+        DateTime createdAt
+        DateTime updatedAt
+    }
+
+    InterviewSessionAttempt {
+        ObjectId id PK
+        AttemptStatus status
+        float score
+        int totalPoints
+        int totalQuestions
+        DateTime startTime
+        DateTime endTime
+        int totalDuration
+        boolean isPublic
+        string shareToken UK
+        Feedback[] feedback
+        ImprovementSuggestion[] improvementSuggestions
+        ObjectId[] questionIds
+        ObjectId[] completedQuestionIds
+        ObjectId sessionId FK
+        ObjectId userId FK
+        DateTime createdAt
+        DateTime updatedAt
+    }
+
+    InterviewQuestionResponse {
+        ObjectId id PK
+        string userAnswer
+        string aiAnswer
+        float userScore
+        Feedback[] feedback
+        boolean isCorrect
+        ImprovementSuggestion[] improvementSuggestions
+        ObjectId questionId FK
+        ObjectId userId FK
+        ObjectId attemptId FK
+        DateTime createdAt
+        DateTime updatedAt
+    }
+
+    %% Embedded Types
+    QuestionOption {
+        string id
+        string text
+        string value
+    }
+
+    QuestionConstraints {
+        int maxLength
+        int minLength
+        string[] allowedTypes
+        int timeLimit
+    }
+
+    Resource {
+        string title
+        string description
+    }
+
+    Feedback {
+        string title
+        string description
+        Resource[] resources
+    }
+
+    ImprovementSuggestion {
+        string title
+        string description
+        Resource[] resources
+    }
+
+    %% Relationships
+    User ||--o{ InterviewSession : "creates"
+    User ||--o{ InterviewSessionAttempt : "attempts"
+    User ||--o{ InterviewQuestionResponse : "responds"
+
+    InterviewSession ||--o{ Question : "contains"
+    InterviewSession ||--o{ InterviewSessionAttempt : "attempted_by"
+
+    Question ||--o{ InterviewQuestionResponse : "answered_in"
+
+    InterviewSessionAttempt ||--o{ InterviewQuestionResponse : "includes"
+
+    %% Embedded relationships (conceptual)
+    Question ||--o{ QuestionOption : "has_options"
+    Question ||--o| QuestionConstraints : "has_constraints"
+    InterviewQuestionResponse ||--o{ Feedback : "has_feedback"
+    InterviewQuestionResponse ||--o{ ImprovementSuggestion : "has_suggestions"
+    InterviewSessionAttempt ||--o{ Feedback : "has_feedback"
+    InterviewSessionAttempt ||--o{ ImprovementSuggestion : "has_suggestions"
+    Feedback ||--o{ Resource : "includes_resources"
+    ImprovementSuggestion ||--o{ Resource : "includes_resources"
 ```
-
-## Additional Features
-
-1. **User Authentication & Profile Management**
-
-    - Multi-provider authentication (Email, Google, GitHub, LinkedIn)
-    - User dashboard with analytics and progress tracking
-    - Profile customization with bio and avatar
-
-2. **Advanced Analytics**
-
-    - Performance trends over time
-    - Domain-specific skill analysis
-    - Comparison with peer benchmarks
-    - Improvement tracking
-
-3. **Learning Resources Integration**
-
-    - AI-generated resource recommendations
-    - Links to relevant documentation and courses
-    - Personalized learning paths based on weak areas
-
-4. **Enhanced Question Types**
-
-    - Support for coding questions with syntax highlighting
-    - Rating scale questions for soft skills assessment
-    - Dropdown questions for specific technical choices
-
-5. **Session Management**
-    - Draft sessions for iterative creation
-    - Session templates for common interview types
-    - Archival system for old sessions
-
-This enhanced POC demonstrates a comprehensive mock interview platform with social features, advanced analytics, and AI-powered personalization.

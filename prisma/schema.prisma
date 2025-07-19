@@ -1,4 +1,3 @@
-// schema.prisma
 generator client {
   provider = "prisma-client-js"
 }
@@ -6,6 +5,22 @@ generator client {
 datasource db {
   provider = "mongodb"
   url      = env("MONGODB_URI")
+}
+
+enum CareerLevel {
+  INTERN
+  JUNIOR
+  MID
+  SENIOR
+  LEAD
+}
+
+enum ExperienceLevel {
+  LESS_THAN_1_YEAR
+  ONE_TO_THREE_YEARS
+  THREE_TO_FIVE_YEARS
+  FIVE_TO_TEN_YEARS
+  MORE_THAN_TEN_YEARS
 }
 
 enum Difficulty {
@@ -17,8 +32,10 @@ enum Difficulty {
 
 enum SessionStatus {
   DRAFT
-  PUBLISHED
-  ARCHIVED
+  GENERATED
+  IN_PROGRESS
+  COMPLETED
+  EVALUATED
 }
 
 enum AttemptStatus {
@@ -45,145 +62,152 @@ enum AuthProvider {
 }
 
 model User {
-  id             String             @id @default(auto()) @map("_id") @db.ObjectId
-  email          String             @unique
-  password       String?
-  firstName      String
-  lastName       String
-  avatar         String?
-  bio            String?
-  authProvider   AuthProvider       @default(EMAIL)
-  isVerified     Boolean            @default(false)
-  token          String?
-  tokenExpired   DateTime?
+  id                  String                      @id @default(auto()) @map("_id") @db.ObjectId
+  email               String                      @unique
+  password            String?
+  firstName           String
+  lastName            String
+  avatar              String?
+  bio                 String?
+  authProvider        AuthProvider                @default(EMAIL)
+  isVerified          Boolean                     @default(false)
+  token               String?
+  tokenExpired        DateTime?
 
   // Dashboard analytics
-  totalSessionsCreated    Int      @default(0)
-  totalAttempts          Int       @default(0)
-  averageScore           Float?    @default(0)
-  strongestDomain        String?
-  improvementAreas       String[]
-  lastActive             DateTime?
+  totalSessionsCreated Int                       @default(0)
+  totalAttempts       Int                        @default(0)
+  averageScore        Float?                     @default(0)
+  strongestDomain     String?
+  improvementAreas    String[]
+  lastActive          DateTime?
 
   // Relations
-  createdSessions InterviewSession[]
-  attempts       AttemptedSession[]
-  responses      InterviewQuestionResponse[]
+  createdSessions     InterviewSession[]
+  attempts           AttemptedSession[]
+  responses          InterviewQuestionResponse[]
 
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  createdAt          DateTime                    @default(now())
+  updatedAt          DateTime                    @updatedAt
 
   @@index([email, isVerified])
 }
 
 model InterviewSession {
-  id              String               @id @default(auto()) @map("_id") @db.ObjectId
-  title           String
-  description     String?
-  careerLevel     String
-  experience      String
-  domain          String
-  difficulty      Difficulty
-  questionTypes   QuestionType[]
-  focusAreas      String[]
-  isPublic        Boolean              @default(false)
-  shareToken      String?              @unique
-  status          SessionStatus        @default(DRAFT)
-
-  // Metadata
-  estimatedDuration Int
-  scoringCriteria  Json // { technical: number, behavioral: number }
+  id                String                      @id @default(auto()) @map("_id") @db.ObjectId
+  title             String
+  description       String?
+  careerLevel       CareerLevel
+  experience        ExperienceLevel
+  domain            String
+  difficulty        Difficulty
+  questionTypes     QuestionType[]
+  focusAreas        String[]
+  isPublic          Boolean                     @default(false)
+  shareToken        String?                     @unique
+  status            SessionStatus               @default(DRAFT)
+  totalQuestions    Int?
+  totalPoints       Int?
 
   // Relations
-  creator       User                 @relation(fields: [creatorId], references: [id])
-  creatorId     String               @db.ObjectId
-  questions     Question[]
-  attempts      AttemptedSession[]
+  creator           User                        @relation(fields: [creatorId], references: [id])
+  creatorId         String                      @db.ObjectId
+  questions        Question[]
+  attempts         AttemptedSession[]
+  responses        InterviewQuestionResponse[]
 
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  createdAt       DateTime                    @default(now())
+  updatedAt       DateTime                    @updatedAt
 
-  @@index([creatorId, isPublic, shareToken])
+  @@index([creatorId, status, isPublic])
 }
 
 model Question {
-  id              String               @id @default(auto()) @map("_id") @db.ObjectId
-  text            String
-  type            QuestionType
-  category        String
-  difficulty      Difficulty
-  estimatedTime   Int                  @default(60) // seconds
-  order           Int
-  points          Int                  @default(10)
-  options         Json?                // For MCQs: [{id: string, text: string}]
-  constraints     Json?                // { minLength?: number, maxLength?: number }
-  hints           String[]
-  tags            String[]
-  idealAnswer     String?
-
+  id                String            @id @default(auto()) @map("_id") @db.ObjectId
+  
+  // Content Fields (Enhanced)
+  text              String            // Plain text fallback
+  content           Json?             // Rich content 
+  
+  // Metadata
+  type              QuestionType
+  category          String?
+  difficulty        Difficulty
+  estimatedDuration Int               // in seconds
+  order             Int?
+  points            Int
+  
+  // Question Components
+  options           String[]          // For MULTIPLE_CHOICE/CHECKBOX
+  constraints       Json?          // Requirements/limitations { min:20, max:100 }
+  hints             String[]          // Help text
+  tags              String[]          // Classification
+  
   // Relations
-  session       InterviewSession     @relation(fields: [sessionId], references: [id])
-  sessionId     String               @db.ObjectId
-  responses     InterviewQuestionResponse[]
+  session           InterviewSession  @relation(fields: [sessionId], references: [id])
+  sessionId         String            @db.ObjectId
+  responses         InterviewQuestionResponse[]
+  attempts          AttemptedSession[] @relation(fields: [attemptIds], references: [id])
+  attemptIds        String[]          @db.ObjectId
+  
+  // Timestamps
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
 
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-
-  @@index([sessionId])
-}
-
-model AttemptedSession {
-  id              String               @id @default(auto()) @map("_id") @db.ObjectId
-  status          AttemptStatus        @default(STARTED)
-  score           Int?
-  timeTaken       Int?                 // in seconds
-  startedAt       DateTime             @default(now())
-  completedAt     DateTime?
-
-  // Relations
-  originalSession InterviewSession     @relation(fields: [originalSessionId], references: [id])
-  originalSessionId String             @db.ObjectId
-  user           User                 @relation(fields: [userId], references: [id])
-  userId         String               @db.ObjectId
-  responses      InterviewQuestionResponse[]
-  feedback       InterviewFeedback?
-
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-
-  @@index([originalSessionId, userId, status])
+  // Indexes
+  @@index([sessionId, type, difficulty])
 }
 
 model InterviewQuestionResponse {
-  id              String               @id @default(auto()) @map("_id") @db.ObjectId
-  answer          Json                 // Can be string, string[], or object
-  score           Int?
-  timeTaken       Int?                 // in seconds
-  answeredAt      DateTime             @default(now())
+  id                      String              @id @default(auto()) @map("_id") @db.ObjectId
+  aiAnswer                String
+  userAnswer             String?
+  userScore               Float?
+  feedback                Json
+  isCorrect               Boolean?
+  improvementSuggestions  Json
 
   // Relations
-  question      Question             @relation(fields: [questionId], references: [id])
-  questionId    String               @db.ObjectId
-  attempt       AttemptedSession     @relation(fields: [attemptId], references: [id])
-  attemptId     String               @db.ObjectId
-  user          User?                @relation(fields: [userId], references: [id])
-  userId        String?              @db.ObjectId
+  question               Question            @relation(fields: [questionId], references: [id])
+  questionId            String              @db.ObjectId
+  user                  User                @relation(fields: [userId], references: [id])
+  userId                String              @db.ObjectId
+  session              InterviewSession      @relation(fields: [sessionId], references: [id])
+  sessionId           String              @db.ObjectId
+  attempt             AttemptedSession      @relation(fields: [attemptId], references: [id])
+  attemptId          String              @db.ObjectId
 
-  @@index([questionId, attemptId, userId])
+  createdAt           DateTime            @default(now())
+  updatedAt           DateTime            @updatedAt
+
+  @@index([questionId, userId, sessionId, attemptId])
 }
 
-model InterviewFeedback {
-  id                  String           @id @default(auto()) @map("_id") @db.ObjectId
-  overallScore        Int
-  strengths           Json             // { id: string, title: string, description: string }[]
-  improvementAreas    Json             // Same structure as strengths
-  resources           Json             // { title: string, url: string }[]
-  aiAnalysis          Json?
-  motivationalSummary String
+model AttemptedSession {
+  id                      String              @id @default(auto()) @map("_id") @db.ObjectId
+  status                  AttemptStatus       @default(STARTED)
+  score                   Float?
+  totalPoints             Int?
+  totalQuestions          Int?
+  startTime               DateTime
+  endTime                 DateTime?
+  totalDuration           Int?                // in seconds
+  isPublic                Boolean             @default(false)
+  shareToken              String?             @unique
+  feedback                Json?
+  improvementSuggestions  Json?
 
   // Relations
-  attempt       AttemptedSession     @relation(fields: [attemptId], references: [id])
-  attemptId     String               @db.ObjectId @unique
+  session                InterviewSession    @relation(fields: [sessionId], references: [id])
+  sessionId             String              @db.ObjectId
+  user                  User                @relation(fields: [userId], references: [id])
+  userId               String              @db.ObjectId
+  questions            Question[]           @relation(fields: [questionIds], references: [id])
+  questionIds         String[]             @db.ObjectId
+  responses           InterviewQuestionResponse[]
 
-  createdAt     DateTime @default(now())
+  createdAt           DateTime            @default(now())
+  updatedAt           DateTime            @updatedAt
+
+  @@index([sessionId, userId, status])
 }

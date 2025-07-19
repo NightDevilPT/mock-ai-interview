@@ -58,7 +58,7 @@ async function registerHandler(request: Request) {
 
 		const hashedPassword = await bcrypt.hash(password, 10);
 		const otp = generateOtp();
-		const otpExpireAt = new Date(Date.now() + 1 * 60 * 1000); // 10 minutes
+		const otpExpireAt = new Date(Date.now() + 10 * 60 * 1000); // 10 minute expiration time
 		const currentYear = new Date().getFullYear().toString();
 
 		await prisma.user.create({

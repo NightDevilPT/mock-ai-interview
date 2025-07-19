@@ -15,6 +15,8 @@ export enum TranslationErrorEnum {
 	ALL_FIELDS_ARE_REQUIRED = "allFieldsAreRequired",
 	INVALID_OTP = "invalidOtp",
 	OTP_EXPIRED = "otpExpired",
+	SESSION_EXPIRED = "sessionExpired",
+	UNAUTHORIZED = "unauthorized",
 
 	// User Api Error Message
 	EMAIL_IS_REQUIRED = "emailIsRequired",

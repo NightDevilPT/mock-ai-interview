@@ -1,6 +1,52 @@
 {
 	"general": {
-		"welcome": "Welcome to Mock AI Interview"
+		"welcomeToMockAiInterview": "Welcome to Mock AI Interview",
+		"loginToYourMockAiInterviewAccount": "Login to your Mock AI Interview Account",
+		"email": "Email",
+		"password": "Password",
+		"signUp": "Sign Up",
+		"loginWithApple": "Login with Apple",
+		"loginWithGoogle": "Login with Google",
+		"loginWithMeta": "Login with Meta",
+		"firstName": "First Name",
+		"lastName": "Last Name",
+		"firstNamePlaceholder": "Enter your first name",
+		"lastNamePlaceholder": "Enter your last name",
+		"backToLogin": "Back to Login"
+	},
+	"login": {
+		"forgotPassword": "Forgot Password?",
+		"login": "Login",
+		"loggingIn": "Logging in...",
+		"orContinueWith": "Or continue with",
+		"dontHaveAnAccount": "Don't have an account?"
+	},
+	"signup": {
+		"createAccount": "Create your account",
+		"getStartedMessage": "Get started with Mock AI Interview",
+		"passwordRequirements": "Use 8 or more characters with a mix of letters, numbers & symbols",
+		"creatingAccount": "Creating account...",
+		"successMessage": "Account created successfully! Please check your email to verify.",
+		"errorMessage": "Failed to create account",
+		"alreadyHaveAccount": "Already have an account?",
+		"termsAgreement": "By clicking continue, you agree to our"
+	},
+	"verify": {
+		"verifyEmail": "Verify your email",
+		"enterCodeMessage": "Enter the verification code sent to your email",
+		"oneTimePassword": "One-time password",
+		"didntReceiveCode": "Didn't receive a code?",
+		"resendCode": "Resend code"
+	},
+	"updatePassword": {
+		"title": "Update Your Password",
+		"subtitle": "Enter your email and verification code to set a new password",
+		"sendOtp": "Send Code",
+		"otpSent": "Verification code sent to your email",
+		"newPassword": "New Password",
+		"confirmPassword": "Confirm Password",
+		"updateButton": "Update Password",
+		"updating": "Updating..."
 	},
 	"server": {
 		"error": {
@@ -8,6 +54,8 @@
 			"allFieldsAreRequired": "All fields are required.",
 			"otpExpired": "OTP has expired. Please request a new one.",
 			"internalServerError": "Internal server error. Please try again later.",
+			"unauthorized": "Unauthorized access. Please log in to continue.",
+			"sessionExpired": "Session expired. Please log in again.",
 
 			"emailIsRequired": "Email is required.",
 			"userNotVerified": "User is not verified.",

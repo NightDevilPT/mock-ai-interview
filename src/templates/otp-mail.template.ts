@@ -1,134 +1,142 @@
 export const getOtpEmailTemplate = (
 	username: string,
 	otp: number,
-	currentYear: string
+	currentYear: string,
+	verificationUrl?: string
 ) => {
 	return `
-	<!DOCTYPE html>
+  <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Welcome to Mock AI Interview</title>
+    <title>Your Verification Code | Mock AI Interview</title>
     <link
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
-      rel="stylesheet"
-    />
-    <link
-      href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont/tabler-icons.min.css"
       rel="stylesheet"
     />
     <style>
       body {
         margin: 0;
         padding: 0;
-        font-family: Arial, sans-serif;
-        background-color: #f4f4f4;
-        color: #333;
+        font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', sans-serif;
+        background-color: #f8fafc;
+        color: #334155;
+        line-height: 1.6;
       }
-
       .container {
         max-width: 600px;
-        margin: 40px auto;
-        background-color: white;
-        padding: 20px 30px;
+        margin: 0 auto;
+        background-color: #ffffff;
         border-radius: 12px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
       }
-
-      .logo-container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 10px;
-        margin-bottom: 30px;
-      }
-
-      .icon-container {
-        width: 50px;
-        height: 50px;
-        padding: 8px;
-        background: linear-gradient(to right, #34d399, #4ade80);
-        border-radius: 12px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-
-      .icon-container i {
+      .header {
+        background: linear-gradient(135deg, #3b82f6, #6366f1);
+        padding: 32px;
+        text-align: center;
         color: white;
-        font-size: 32px;
       }
-
-      .logo-text {
-        font-size: 32px;
-        font-weight: bold;
-        margin: 0;
-        color: #333;
+      .logo {
+        font-size: 28px;
+        font-weight: 700;
+        margin-bottom: 8px;
       }
-
-      .gradient-text {
-        background: linear-gradient(to right, #34d399, #4ade80);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
+      .content {
+        padding: 32px;
       }
-
-      h4 {
+      h1 {
         font-size: 24px;
-        margin-bottom: 10px;
+        margin-top: 0;
+        margin-bottom: 24px;
+        color: #1e293b;
       }
-
-      p {
-        font-size: 18px;
-        line-height: 1.6;
-        margin: 10px 0;
+      .otp-container {
+        background-color: #f1f5f9;
+        border-radius: 8px;
+        padding: 24px;
+        text-align: center;
+        margin: 24px 0;
       }
-
-      .otp-box {
+      .otp-code {
+        font-size: 32px;
+        font-weight: 700;
+        letter-spacing: 4px;
+        color: #3b82f6;
+        margin: 16px 0;
+      }
+      .button {
         display: inline-block;
-        background-color: #34d399;
+        background: linear-gradient(135deg, #3b82f6, #6366f1);
         color: white;
-        padding: 10px 20px;
-        font-size: 20px;
-        font-weight: bold;
+        text-decoration: none;
+        padding: 12px 24px;
         border-radius: 6px;
-        margin-top: 15px;
+        font-weight: 600;
+        margin: 16px 0;
       }
-
       .footer {
+        padding: 24px;
         text-align: center;
         font-size: 14px;
-        margin-top: 20px;
-        color: #777;
+        color: #64748b;
+        border-top: 1px solid #e2e8f0;
+      }
+      .small-text {
+        font-size: 14px;
+        color: #64748b;
+        margin-top: 24px;
       }
     </style>
   </head>
-
   <body>
     <div class="container">
-      <!-- Dynamic Greeting and OTP Section -->
-      <h4>Hello ${username},</h4>
-      <p>
-        Welcome to Mock AI Interview! We are thrilled to have you as a part of our
-        community. To complete your registration or verify your identity,
-        please use the One-Time Password (OTP) provided below:
-      </p>
-
-      <div class="otp-box">${otp}</div>
-
-      <p>
-        If you did not request this verification, please ignore this email. For
-        any issues, feel free to contact our support team.
-      </p>
-
-      <!-- Footer -->
+      <div class="header">
+        <div class="logo">Mock AI Interview</div>
+        <div>Email Verification</div>
+      </div>
+      
+      <div class="content">
+        <h1>Hello ${username},</h1>
+        
+        <p>Thank you for signing up with Mock AI Interview! To complete your registration, please verify your email address using the following One-Time Password (OTP):</p>
+        
+        <div class="otp-container">
+          <div>Your verification code:</div>
+          <div class="otp-code">${otp}</div>
+          <div>This code will expire in 10 minutes</div>
+        </div>
+        
+        ${
+			verificationUrl
+				? `
+        <p style="text-align: center;">
+          <a href="${verificationUrl}" class="button">Verify Email Address</a>
+        </p>
+        <p style="text-align: center;">Or copy and paste this link in your browser:<br>
+          <a href="${verificationUrl}" style="color: #3b82f6; word-break: break-all;">${verificationUrl}</a>
+        </p>
+        `
+				: ""
+		}
+        
+        <p>If you didn't request this email, you can safely ignore it. Someone might have entered your email address by mistake.</p>
+        
+        <div class="small-text">
+          <p>Need help? Contact our support team at <a href="mailto:support@mockaiinterview.com" style="color: #3b82f6;">support@mockaiinterview.com</a></p>
+        </div>
+      </div>
+      
       <div class="footer">
-        Thank you for choosing Mock AI Interview!<br />
-        &copy; ${currentYear} Mock AI Interview. All rights reserved.
+        &copy; ${currentYear} Mock AI Interview. All rights reserved.<br>
+        <div style="margin-top: 8px;">
+          <a href="https://mockaiinterview.com/privacy" style="color: #64748b; margin: 0 8px;">Privacy Policy</a>
+          <a href="https://mockaiinterview.com/terms" style="color: #64748b; margin: 0 8px;">Terms of Service</a>
+        </div>
       </div>
     </div>
   </body>
 </html>
-
-	`;
+  `;
 };

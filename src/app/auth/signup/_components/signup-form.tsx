@@ -1,12 +1,5 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import {
 	Form,
 	FormControl,
@@ -15,11 +8,20 @@ import {
 	FormLabel,
 	FormMessage,
 } from "@/components/ui/form";
+import { z } from "zod";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { FaApple, FaGoogle, FaMeta } from "react-icons/fa6";
+import { cn } from "@/lib/utils";
+import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
+import { Input } from "@/components/ui/input";
+import ApiService from "@/services/api.service";
+import { Button } from "@/components/ui/button";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Card, CardContent } from "@/components/ui/card";
+import { FaApple, FaGoogle, FaMeta } from "react-icons/fa6";
+import { ApiEndpoints } from "@/interface/api-response.interface";
 
 // Form validation schema
 const formSchema = z.object({
@@ -54,13 +56,19 @@ export function SignupForm({
 
 	async function onSubmit(values: z.infer<typeof formSchema>) {
 		try {
-			console.log("Form values:", values);
-		} catch (error) {
-			toast.error(
-				error instanceof Error
-					? error.message
-					: t("signup.errorMessage")
-			);
+			// Call the register API using the ApiService
+			const response = await ApiService.post(ApiEndpoints.REGISTER_USER, {
+				firstName: values.firstName,
+				lastName: values.lastName,
+				email: values.email,
+				password: values.password,
+			});
+			toast.success(t(`server.success.${response.message}`));
+			if (response.statusCode === 201) {
+				router.push("/auth/login");
+			}
+		} catch (error: any) {
+			toast.error(t(`server.error.${error.message}`));
 		}
 	}
 

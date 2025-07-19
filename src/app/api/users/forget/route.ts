@@ -7,11 +7,11 @@ import prisma from "@/lib/prisma";
 import { generateOtp } from "@/lib/utils";
 import { NextResponse } from "next/server";
 import { validateEmail } from "@/lib/validator";
+import { IForgotPassword } from "@/interface/user.interface";
 import { ApiResponse } from "@/interface/api-response.interface";
-import { emailProviderFactory } from "@/services/email-provider.service";
 import { withRequestTiming } from "@/middlewares/with-timestemp";
 import { getOtpEmailTemplate } from "@/templates/otp-mail.template";
-import { IForgotPassword } from "@/interface/user.interface";
+import { emailProviderFactory } from "@/services/email-provider.service";
 
 async function forgotPasswordHandler(request: Request) {
 	try {

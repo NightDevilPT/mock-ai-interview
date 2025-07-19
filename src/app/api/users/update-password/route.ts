@@ -1,14 +1,14 @@
-import bcrypt from "bcryptjs";
-import prisma from "@/lib/prisma";
-import { NextResponse } from "next/server";
-
 import {
 	TranslationEnum,
 	TranslationErrorEnum,
 } from "@/interface/translation-enums";
+import bcrypt from "bcryptjs";
+import prisma from "@/lib/prisma";
+import { NextResponse } from "next/server";
+import { IUpdatePassword } from "@/interface/user.interface";
 import { ApiResponse } from "@/interface/api-response.interface";
 import { withRequestTiming } from "@/middlewares/with-timestemp";
-import { IUpdatePassword } from "@/interface/user.interface";
+
 
 
 async function updatePasswordHandler(

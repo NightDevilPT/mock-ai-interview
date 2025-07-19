@@ -27,7 +27,6 @@
 		"passwordRequirements": "Use 8 or more characters with a mix of letters, numbers & symbols",
 		"creatingAccount": "Creating account...",
 		"successMessage": "Account created successfully! Please check your email to verify.",
-		"errorMessage": "Failed to create account",
 		"alreadyHaveAccount": "Already have an account?",
 		"termsAgreement": "By clicking continue, you agree to our"
 	},
@@ -36,7 +35,8 @@
 		"enterCodeMessage": "Enter the verification code sent to your email",
 		"oneTimePassword": "One-time password",
 		"didntReceiveCode": "Didn't receive a code?",
-		"resendCode": "Resend code"
+		"resendCode": "Resend code",
+		"verifying": "Verifying..."
 	},
 	"updatePassword": {
 		"title": "Update Your Password",
@@ -46,7 +46,9 @@
 		"newPassword": "New Password",
 		"confirmPassword": "Confirm Password",
 		"updateButton": "Update Password",
-		"updating": "Updating..."
+		"updating": "Updating...",
+		"emailRequired":"Email is required.",
+		"sendingOtp": "Sending verification code..."
 	},
 	"server": {
 		"error": {

@@ -1,12 +1,11 @@
-import bcrypt from "bcryptjs";
-import prisma from "@/lib/prisma";
-import { NextResponse } from "next/server";
 import {
 	TranslationEnum,
 	TranslationErrorEnum,
 } from "@/interface/translation-enums";
-
+import bcrypt from "bcryptjs";
+import prisma from "@/lib/prisma";
 import { cookies } from "next/headers"; // for setting cookies
+import { NextResponse } from "next/server";
 import jwtService from "@/services/jwt.service";
 import { ILogin, UserPayload } from "@/interface/user.interface";
 import { ApiResponse } from "@/interface/api-response.interface";

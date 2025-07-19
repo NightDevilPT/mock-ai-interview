@@ -1,12 +1,5 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import {
 	Form,
 	FormControl,
@@ -15,11 +8,20 @@ import {
 	FormLabel,
 	FormMessage,
 } from "@/components/ui/form";
-import { useRouter, useSearchParams } from "next/navigation";
-import { toast } from "sonner";
-import { useTranslation } from "react-i18next";
+import { z } from "zod";
 import Link from "next/link";
+import { toast } from "sonner";
+import { cn } from "@/lib/utils";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { Input } from "@/components/ui/input";
+import { useTranslation } from "react-i18next";
+import ApiService from "@/services/api.service";
+import { Button } from "@/components/ui/button";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Card, CardContent } from "@/components/ui/card";
+import { useRouter, useSearchParams } from "next/navigation";
+import { ApiEndpoints } from "@/interface/api-response.interface";
 import { InputOTPWithSeparator } from "@/components/atoms/out-input";
 
 const formSchema = z
@@ -45,7 +47,8 @@ export function UpdatePasswordForm({
 	const router = useRouter();
 	const searchParams = useSearchParams();
 	const { t } = useTranslation();
-	const [isOtpSent, setIsOtpSent] = useState(true);
+	const [isOtpSent, setIsOtpSent] = useState(false);
+	const [isSubmitting, setIsSubmitting] = useState(false);
 
 	// Pre-fill email from query params if available
 	const email = searchParams.get("email");
@@ -60,21 +63,50 @@ export function UpdatePasswordForm({
 		},
 	});
 
-	const sendOtp = () => {
+	const sendOtp = async () => {
 		const email = form.getValues("email");
 		if (!email) {
-			toast.error("Please enter your email first");
+			toast.error(t("updatePassword.emailRequired"));
 			return;
 		}
-		console.log("OTP would be sent to:", email);
-		toast.success("OTP sent successfully (demo)");
-		setIsOtpSent(true);
+
+		try {
+			setIsSubmitting(true);
+			const response = await ApiService.post(ApiEndpoints.RESEND_OTP, {
+				email,
+				type: "update-password",
+			});
+
+			toast.success(t(`server.success.${response.message}`));
+			setIsOtpSent(true);
+		} catch (error: any) {
+			console.error("Failed to send OTP:", error);
+			toast.error(t(`server.error.${error.message}`));
+		} finally {
+			setIsSubmitting(false);
+		}
 	};
 
-	const onSubmit = (values: z.infer<typeof formSchema>) => {
-		console.log("Form would be submitted with:", values);
-		toast.success("Password updated successfully (demo)");
-		router.push("/login");
+	const onSubmit = async (values: z.infer<typeof formSchema>) => {
+		try {
+			setIsSubmitting(true);
+			const response = await ApiService.post(
+				ApiEndpoints.UPDATE_USER_PASSWORD,
+				{
+					email: values.email,
+					otp: values.otp,
+					password: values.newPassword,
+				}
+			);
+
+			toast.success(t(`server.success.${response.message}`));
+			router.push("/auth/login");
+		} catch (error: any) {
+			console.error("Password update failed:", error);
+			toast.error(t(`server.error.${error.message}`));
+		} finally {
+			setIsSubmitting(false);
+		}
 	};
 
 	return (
@@ -128,13 +160,17 @@ export function UpdatePasswordForm({
 									)}
 								/>
 
-								{!isOtpSent && (
-									<Button type="button" onClick={sendOtp}>
-										{t("updatePassword.sendOtp")}
+								{!isOtpSent ? (
+									<Button
+										type="button"
+										onClick={sendOtp}
+										disabled={isSubmitting}
+									>
+										{isSubmitting
+											? t("updatePassword.sendingOtp")
+											: t("updatePassword.sendOtp")}
 									</Button>
-								)}
-
-								{isOtpSent && (
+								) : (
 									<>
 										<FormField
 											control={form.control}
@@ -203,18 +239,24 @@ export function UpdatePasswordForm({
 												</FormItem>
 											)}
 										/>
-									</>
-								)}
 
-								{isOtpSent && (
-									<Button type="submit" className="w-full">
-										{t("updatePassword.updateButton")}
-									</Button>
+										<Button
+											type="submit"
+											className="w-full"
+											disabled={isSubmitting}
+										>
+											{isSubmitting
+												? t("updatePassword.updating")
+												: t(
+														"updatePassword.updateButton"
+												  )}
+										</Button>
+									</>
 								)}
 
 								<div className="text-center text-sm">
 									<Link
-										href="/login"
+										href="/auth/login"
 										className="underline underline-offset-4 hover:text-primary"
 									>
 										{t("general.backToLogin")}

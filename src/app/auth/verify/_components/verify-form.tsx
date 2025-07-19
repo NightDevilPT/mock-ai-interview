@@ -1,11 +1,5 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import {
 	Form,
 	FormControl,
@@ -14,18 +8,19 @@ import {
 	FormLabel,
 	FormMessage,
 } from "@/components/ui/form";
-import {
-	InputOTP,
-	InputOTPGroup,
-	InputOTPSeparator,
-	InputOTPSlot,
-} from "@/components/ui/input-otp";
-import { Input } from "@/components/ui/input";
-import { useRouter, useSearchParams } from "next/navigation";
-import { toast } from "sonner";
-import { useTranslation } from "react-i18next";
+import { z } from "zod";
 import Link from "next/link";
-import { useEffect } from "react";
+import { toast } from "sonner";
+import { cn } from "@/lib/utils";
+import { useForm } from "react-hook-form";
+import { Input } from "@/components/ui/input";
+import { useTranslation } from "react-i18next";
+import ApiService from "@/services/api.service";
+import { Button } from "@/components/ui/button";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Card, CardContent } from "@/components/ui/card";
+import { useRouter, useSearchParams } from "next/navigation";
+import { ApiEndpoints } from "@/interface/api-response.interface";
 import { InputOTPWithSeparator } from "@/components/atoms/out-input";
 
 // Form validation schema
@@ -55,41 +50,50 @@ export function VerifyEmailForm({
 		},
 	});
 
-	// Auto-submit when OTP is complete
-	useEffect(() => {
-		if (form.watch("otp").length === 6) {
-			form.handleSubmit(onSubmit)();
-		}
-	}, [form.watch("otp")]);
-
 	async function onSubmit(values: z.infer<typeof formSchema>) {
 		try {
-			console.log("Form values:", values);
-		} catch (error) {
-			toast.error(
-				error instanceof Error
-					? error.message
-					: t("verify.errorMessage")
-			);
-			form.resetField("otp");
+			// Call the verify OTP API
+			const response = await ApiService.post(ApiEndpoints.VERIFY_USER, {
+				email: values.email,
+				otp: values.otp,
+			});
+
+			// Show success message
+			toast.success(t(`server.success.${response.message}`));
+
+			if (response.statusCode === 200) {
+				router.push("/auth/login");
+			}
+		} catch (error: any) {
+			console.error("OTP verification failed:", error);
+
+			toast.error(t(`server.error.${error.message}`));
 		}
 	}
 
 	async function resendOTP() {
 		try {
-			console.log("Resending OTP to:", form.getValues("email"));
-		} catch (error) {
-			toast.error(
-				error instanceof Error
-					? error.message
-					: t("verify.resendErrorMessage")
-			);
+			const email = form.getValues("email");
+			if (!email) {
+				toast.error(t("verify.emailRequired"));
+				return;
+			}
+
+			// Call the resend OTP API
+			const response = await ApiService.post(ApiEndpoints.RESEND_OTP, {
+				email,
+			});
+
+			toast.success(t(`server.success.${response.message}`));
+		} catch (error: any) {
+			console.error("Resend OTP failed:", error);
+			toast.error(t(`server.error.${error.message}`));
 		}
 	}
 
 	// Handle OTP change
 	const handleOTPChange = (otpValue: string) => {
-		form.setValue("otp", otpValue); // Set OTP value in form state
+		form.setValue("otp", otpValue);
 	};
 
 	return (
@@ -124,7 +128,7 @@ export function VerifyEmailForm({
 													placeholder="m@example.com"
 													type="email"
 													{...field}
-													disabled={!!email} // Disable if email is from query params
+													disabled={!!email}
 												/>
 											</FormControl>
 											<FormMessage />

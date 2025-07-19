@@ -13,7 +13,8 @@ export const metadata: Metadata = {
 
 const Layout = async ({ children }: { children: ReactNode }) => {
 	const cookieStore = await cookies();
-	const accessToken = cookieStore.get("accessToken")?.value;
+	const accessToken = cookieStore.get("access_token")?.value;
+	console.log("Access Token:", accessToken);
 
 	if (!accessToken) {
 		redirect("/auth/login");

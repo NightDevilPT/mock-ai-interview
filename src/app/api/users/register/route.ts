@@ -1,17 +1,17 @@
-import bcrypt from "bcryptjs";
-import { NextResponse } from "next/server";
 import {
 	TranslationEnum,
 	TranslationErrorEnum,
 } from "@/interface/translation-enums";
+import bcrypt from "bcryptjs";
 import { config } from "@/config";
 import prisma from "@/lib/prisma";
 import { generateOtp } from "@/lib/utils";
+import { NextResponse } from "next/server";
 import { ISignUp } from "@/interface/user.interface";
 import { ApiResponse } from "@/interface/api-response.interface"; // Assuming this is the path to ApiResponse
-import { emailProviderFactory } from "@/services/email-provider.service";
 import { withRequestTiming } from "@/middlewares/with-timestemp";
 import { getOtpEmailTemplate } from "@/templates/otp-mail.template";
+import { emailProviderFactory } from "@/services/email-provider.service";
 import { validateEmail, validatePasswordWithErrors } from "@/lib/validator";
 
 async function registerHandler(request: Request) {
@@ -80,7 +80,8 @@ async function registerHandler(request: Request) {
 			html: getOtpEmailTemplate(
 				`${firstName} ${lastName}`,
 				otp,
-				currentYear
+				currentYear,
+				config.origin+'/auth/verify?email='+email
 			),
 		};
 

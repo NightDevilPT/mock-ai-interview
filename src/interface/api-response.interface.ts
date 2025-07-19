@@ -5,3 +5,13 @@ export interface ApiResponse<T = unknown> {
 	meta?: Record<string, any>; // Optional metadata (pagination, timestamps, etc.)
 	statusCode?: number; // Optional HTTP status code reference
 }
+
+export enum ApiEndpoints {
+	// User-related endpoints
+	REGISTER_USER = "/users/register",
+	VERIFY_USER = "/users/verify",
+	UPDATE_USER_PASSWORD = "/users/update-password",
+	RESEND_OTP = "/users/resend",
+	LOGIN_USER = "/users/login",
+	FORGOT_PASSWORD = "/users/forgot",
+}

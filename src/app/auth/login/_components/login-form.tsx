@@ -1,12 +1,5 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import {
 	Form,
 	FormControl,
@@ -15,11 +8,20 @@ import {
 	FormLabel,
 	FormMessage,
 } from "@/components/ui/form";
+import { z } from "zod";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { FaApple, FaGoogle, FaMeta } from "react-icons/fa6";
+import { cn } from "@/lib/utils";
+import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
+import { Input } from "@/components/ui/input";
 import { useTranslation } from "react-i18next";
+import ApiService from "@/services/api.service";
+import { Button } from "@/components/ui/button";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Card, CardContent } from "@/components/ui/card";
+import { FaApple, FaGoogle, FaMeta } from "react-icons/fa6";
+import { ApiEndpoints } from "@/interface/api-response.interface";
 
 // Form validation schema
 const formSchema = z.object({
@@ -46,11 +48,23 @@ export function LoginForm({
 
 	async function onSubmit(values: z.infer<typeof formSchema>) {
 		try {
-			console.log("Form values:", values);
-		} catch (error) {
-			toast.error(
-				error instanceof Error ? error.message : "An error occurred"
-			);
+			// Call the login API
+			const response = await ApiService.post(ApiEndpoints.LOGIN_USER, {
+				email: values.email,
+				password: values.password,
+			});
+
+			// Show success message
+			toast.success(t(`server.success.${response.message}`));
+			if (response.statusCode === 200) {
+				router.push("/");
+			}
+		} catch (error: any) {
+			console.error("Login failed:", error);
+			toast.error(t(`server.error.${error.message}`));
+
+			// Clear password field on error
+			form.resetField("password");
 		}
 	}
 
@@ -80,7 +94,9 @@ export function LoginForm({
 									name="email"
 									render={({ field }) => (
 										<FormItem>
-											<FormLabel>{t("general.email")}</FormLabel>
+											<FormLabel>
+												{t("general.email")}
+											</FormLabel>
 											<FormControl>
 												<Input
 													placeholder="m@example.com"
@@ -99,7 +115,9 @@ export function LoginForm({
 									render={({ field }) => (
 										<FormItem>
 											<div className="flex items-center">
-												<FormLabel>{t("general.password")}</FormLabel>
+												<FormLabel>
+													{t("general.password")}
+												</FormLabel>
 											</div>
 											<FormControl>
 												<Input
@@ -110,7 +128,7 @@ export function LoginForm({
 											</FormControl>
 											<FormMessage />
 											<Link
-												href="/auth/forget"
+												href="/auth/update"
 												className="ml-auto text-sm underline-offset-2 hover:underline"
 											>
 												{t("login.forgotPassword")}

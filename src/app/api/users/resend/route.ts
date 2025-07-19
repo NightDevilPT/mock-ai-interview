@@ -1,21 +1,21 @@
-import { NextResponse } from "next/server";
-import { emailProviderFactory } from "@/services/email-provider.service";
-import { getOtpEmailTemplate } from "@/templates/otp-mail.template";
-import { config } from "@/config";
-import prisma from "@/lib/prisma";
-import { generateOtp } from "@/lib/utils";
 import {
 	TranslationEnum,
 	TranslationErrorEnum,
 } from "@/interface/translation-enums";
-import { ApiResponse } from "@/interface/api-response.interface";
+import { config } from "@/config";
+import prisma from "@/lib/prisma";
+import { generateOtp } from "@/lib/utils";
+import { NextResponse } from "next/server";
 import { validateEmail } from "@/lib/validator";
+import { ApiResponse } from "@/interface/api-response.interface";
 import { withRequestTiming } from "@/middlewares/with-timestemp";
+import { getOtpEmailTemplate } from "@/templates/otp-mail.template";
+import { emailProviderFactory } from "@/services/email-provider.service";
 
 async function resendVerifyHandler(request: Request) {
 	try {
 		const body = await request.json();
-		const { email } = body;
+		const { email, type } = body;
 
 		if (!email) {
 			const res: ApiResponse = {
@@ -45,7 +45,7 @@ async function resendVerifyHandler(request: Request) {
 			return NextResponse.json(res, { status: 404 });
 		}
 
-		if (user.isVerified) {
+		if (user.isVerified && type !== "update-password") {
 			const res: ApiResponse = {
 				message: TranslationErrorEnum.USER_ALREADY_VERIFIED,
 				statusCode: 200,
@@ -69,7 +69,10 @@ async function resendVerifyHandler(request: Request) {
 		const emailOptions = {
 			from: config.emailId,
 			to: email,
-			subject: "Resend Email Verification",
+			subject:
+				type === "update-password"
+					? "Update Password Email"
+					: "Resend Email Verification",
 			html: getOtpEmailTemplate(
 				`${user.firstName} ${user.lastName}`,
 				otp,
@@ -80,7 +83,10 @@ async function resendVerifyHandler(request: Request) {
 		await transporter.sendMail(emailOptions);
 
 		const res: ApiResponse = {
-			message: TranslationEnum.VERIFICATION_MAIL_SENT,
+			message:
+				type === "update-password"
+					? TranslationEnum.OTP_SENT_FOR_PASSWORD_RESET
+					: TranslationEnum.VERIFICATION_MAIL_SENT,
 			statusCode: 200,
 		};
 		return NextResponse.json(res, { status: 200 });

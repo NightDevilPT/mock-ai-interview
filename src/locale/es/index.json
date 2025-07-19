@@ -1,5 +1,9 @@
 {
 	"general": {
-		"welcome": "Bienvenido a la Entrevista de IA Simulada"
+		"welcome": "Bienvenido a la Entrevista de IA Simulada",
+		"dashboard": "Panel de Control",
+		"setting": "Configuración",
+		"mockAiInterview": "Entrevista con IA Simulada",
+		"aiPoweredInterview": "Simulaciones de entrevista con IA"
 	}
 }

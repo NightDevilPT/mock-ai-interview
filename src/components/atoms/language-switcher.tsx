@@ -1,8 +1,5 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { Check, ChevronDown, Globe } from "lucide-react";
-
 import {
 	Popover,
 	PopoverContent,
@@ -17,8 +14,10 @@ import {
 	CommandInput,
 } from "@/components/ui/command";
 import { cn } from "@/lib/utils";
+import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
+import { Check, ChevronDown, Globe } from "lucide-react";
 import { SUPPORTED_LANGUAGES, type SupportedLanguage } from "@/lib/i18n";
 
 interface LanguageSwitcherProps {

@@ -12,7 +12,11 @@
 		"lastName": "Last Name",
 		"firstNamePlaceholder": "Enter your first name",
 		"lastNamePlaceholder": "Enter your last name",
-		"backToLogin": "Back to Login"
+		"backToLogin": "Back to Login",
+		"mockAiInterview": "Mock Ai Interview",
+		"aiPoweredInterview": "AI-powered interview simulations",
+		"dashboard": "Dashboard",
+		"setting": "Setting"
 	},
 	"login": {
 		"forgotPassword": "Forgot Password?",
@@ -47,8 +51,13 @@
 		"confirmPassword": "Confirm Password",
 		"updateButton": "Update Password",
 		"updating": "Updating...",
-		"emailRequired":"Email is required.",
+		"emailRequired": "Email is required.",
 		"sendingOtp": "Sending verification code..."
+	},
+	"notFoundPage": {
+		"oopsWeCantSeemToFindThatPage": "Oops! We can't seem to find the page you're looking for.",
+		"theResourceYouAreTringToAccessIsUnavailable": "The resource you're trying to access is unavailable or does not exist.",
+		"goBackHome": "Go back home"
 	},
 	"server": {
 		"error": {

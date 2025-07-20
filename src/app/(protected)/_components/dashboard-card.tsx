@@ -27,7 +27,7 @@ export function DashboardCard({
 	footerDescription: string;
 }) {
 	const TrendIcon = trend === "up" ? IconTrendingUp : IconTrendingDown;
-
+	console.log(description)
 	return (
 		<Card className="@container/card">
 			<CardHeader>

@@ -17,6 +17,7 @@ export enum TranslationErrorEnum {
 	OTP_EXPIRED = "otpExpired",
 	SESSION_EXPIRED = "sessionExpired",
 	UNAUTHORIZED = "unauthorized",
+	INVALID_INPUT = "invalidInput",
 
 	// User Api Error Message
 	EMAIL_IS_REQUIRED = "emailIsRequired",

@@ -79,7 +79,7 @@ const columns: ColumnConfig<Order>[] = [
 ];
 
 export default function Home() {
-	const { t, ready } = useTranslation();
+	const { ready } = useTranslation();
 	const allOrders = generateMockOrders(150);
 	const [currentPage, setCurrentPage] = useState(1);
 	const pageSize = 10;

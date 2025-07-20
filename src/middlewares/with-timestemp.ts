@@ -1,34 +1,46 @@
 // lib/middleware/withRequestTiming.ts
 import { NextRequest, NextResponse } from "next/server";
+import { ApiResponse } from "@/interface/api-response.interface";
 
-type Handler = (request: NextRequest) => Promise<NextResponse>;
+type Handler = (request: NextRequest, payload?: any) => Promise<NextResponse>;
 
 export function withRequestTiming(handler: Handler): Handler {
-	return async (request: NextRequest): Promise<NextResponse> => {
+	return async (
+		request: NextRequest,
+		payload?: any
+	): Promise<NextResponse> => {
 		const startDate = new Date();
 		const startHrTime = process.hrtime();
 
-		const response = await handler(request);
+		try {
+			const response = await handler(request, payload);
+			const responseData = await response.clone().json();
 
-		const endDate = new Date();
-		const [seconds, nanoseconds] = process.hrtime(startHrTime);
-		const durationMs = (seconds * 1000 + nanoseconds / 1e6).toFixed(2);
+			const [seconds, nanoseconds] = process.hrtime(startHrTime);
+			const durationMs = (seconds * 1000 + nanoseconds / 1e6).toFixed(2);
 
-		const finalResponse = NextResponse.json(
-			{
-				...(await response.json()),
+			const enhancedResponse: ApiResponse = {
+				...responseData,
 				meta: {
-					startTime: startDate.toLocaleString(),
-					endTime: endDate.toLocaleString(),
-					durationMs: `${durationMs}ms`,
+					...responseData?.meta,
+					startTime: startDate.toISOString(),
+					endTime: new Date().toISOString(),
+					durationMs: parseFloat(durationMs),
 				},
-			},
-			{
+			};
+
+			return NextResponse.json(enhancedResponse, {
 				status: response.status,
 				headers: response.headers,
-			}
-		);
-
-		return finalResponse;
+			});
+		} catch (error) {
+			console.error("Error in withRequestTiming middleware:", error);
+			const errorResponse: ApiResponse = {
+				statusCode: 500,
+				message: "Internal Server Error",
+				error: "Failed to process request timing",
+			};
+			return NextResponse.json(errorResponse, { status: 500 });
+		}
 	};
 }

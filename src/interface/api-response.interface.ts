@@ -4,6 +4,7 @@ export interface ApiResponse<T = unknown> {
 	errors?: string[]; // List of error messages (if any)
 	meta?: Record<string, any>; // Optional metadata (pagination, timestamps, etc.)
 	statusCode?: number; // Optional HTTP status code reference
+	error?: string;
 }
 
 export enum ApiEndpoints {

@@ -132,3 +132,67 @@ export function validateInterviewPrompt(input: unknown): {
 		data: result.data,
 	};
 }
+
+
+// types/session.ts
+export interface Question {
+	id: string;
+	text: string;
+	type: string;
+	difficulty: string;
+	points: number;
+	order: number;
+  }
+  
+  export interface Creator {
+	id: string;
+	email: string;
+	avatar: string | null;
+	firstName: string;
+	lastName: string;
+  }
+  
+  export interface Session {
+	id: string;
+	title: string;
+	description: string;
+	careerLevel: string;
+	experience: string;
+	domain: string;
+	difficulty: string;
+	questionTypes: string[];
+	focusAreas: string[];
+	isPublic: boolean;
+	shareToken: string | null;
+	status: string;
+	totalQuestions: number;
+	totalPoints: number;
+	creatorId: string;
+	createdAt: string;
+	updatedAt: string;
+	creator: Creator;
+	questions: Question[];
+	_count: {
+	  questions: number;
+	  attempts: number;
+	};
+  }
+  
+  export interface SessionsResponse {
+	statusCode: number;
+	message: string;
+	data: {
+	  sessions: Session[];
+	};
+	meta: {
+	  page: number;
+	  limit: number;
+	  totalRecords: number;
+	  totalPages: number;
+	  isPrevious: boolean;
+	  isNext: boolean;
+	  startTime: string;
+	  endTime: string;
+	  durationMs: number;
+	};
+  }

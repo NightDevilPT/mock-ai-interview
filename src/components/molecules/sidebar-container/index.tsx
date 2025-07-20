@@ -36,12 +36,12 @@ const SidebarContainer = ({ children }: { children: React.ReactNode }) => {
 							},
 							{
 								title: t("general.attempedInterview"),
-								url: "/dashboard",
+								url: "/attempted-interview",
 								icon: SquaresIntersect,
 							},
 							{
 								title: t("general.myInterviewSessions"),
-								url: "/dashboard",
+								url: "/my-interview-sessions",
 								icon: NotebookPen,
 							},
 							{

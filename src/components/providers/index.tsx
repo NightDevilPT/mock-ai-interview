@@ -1,10 +1,10 @@
 "use client";
 
 import React, { ReactNode } from "react";
-import { ThemeProvider } from "./theme-provider";
-import { I18nProvider } from "./i18n-provider";
-import SidebarContainer from "../molecules/sidebar-container";
 import { usePathname } from "next/navigation";
+import { I18nProvider } from "./i18n-provider";
+import { ThemeProvider } from "./theme-provider";
+import SidebarContainer from "../molecules/sidebar-container";
 
 const RootProvider = ({ children }: { children: ReactNode }) => {
 	const pathName = usePathname();
@@ -20,11 +20,11 @@ const RootProvider = ({ children }: { children: ReactNode }) => {
 			<ThemeProvider>{children}</ThemeProvider>
 		</I18nProvider>
 	) : (
-		<SidebarContainer>
-			<I18nProvider>
-				<ThemeProvider>{children}</ThemeProvider>
-			</I18nProvider>
-		</SidebarContainer>
+		<I18nProvider>
+			<ThemeProvider>
+				<SidebarContainer>{children}</SidebarContainer>{" "}
+			</ThemeProvider>
+		</I18nProvider>
 	);
 };
 

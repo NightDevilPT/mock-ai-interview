@@ -15,4 +15,6 @@ export enum ApiEndpoints {
 	RESEND_OTP = "/users/resend",
 	LOGIN_USER = "/users/login",
 	FORGOT_PASSWORD = "/users/forgot",
+
+	GET_MY_SESSION = "/interview-sessions/me"
 }

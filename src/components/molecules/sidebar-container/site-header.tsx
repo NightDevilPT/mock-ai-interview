@@ -10,12 +10,14 @@ import {
 } from "@/components/ui/breadcrumb";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useTranslation } from "react-i18next";
 import { ThemeToggle } from "../../atoms/theme-toggle";
 import { NavUser } from "@/components/atoms/user-nav";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { LanguageSwitcher } from "../../atoms/language-switcher";
 
 export function SiteHeader() {
+	const { t } = useTranslation();
 	const pathname = usePathname();
 
 	// Generate breadcrumb items from pathname
@@ -26,7 +28,7 @@ export function SiteHeader() {
 		if (paths.length === 0) {
 			breadcrumbs.push({
 				href: "/",
-				label: "Dashboard",
+				label: t(`general.dashboard`),
 			});
 		}
 

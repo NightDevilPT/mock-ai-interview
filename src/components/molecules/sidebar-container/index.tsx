@@ -1,9 +1,16 @@
+import {
+	Aperture,
+	LayoutDashboardIcon,
+	NotebookPen,
+	SettingsIcon,
+	SquaresIntersect,
+} from "lucide-react";
 import React from "react";
 import { AppSidebar } from "./app-sidebar";
-import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
-import { DatabaseIcon, LayoutDashboardIcon, SettingsIcon } from "lucide-react";
-import { SiteHeader } from "@/components/molecules/sidebar-container/site-header";
 import { useTranslation } from "react-i18next";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
+import { SiteHeader } from "@/components/molecules/sidebar-container/site-header";
 
 const SidebarContainer = ({ children }: { children: React.ReactNode }) => {
 	const { t } = useTranslation();
@@ -15,7 +22,7 @@ const SidebarContainer = ({ children }: { children: React.ReactNode }) => {
 					"--header-height": "calc(var(--spacing) * 15)",
 				} as React.CSSProperties
 			}
-			className="w-full h-screen"
+			className="w-full h-screen overflow-hidden"
 		>
 			<AppSidebar
 				variant="inset"
@@ -24,9 +31,24 @@ const SidebarContainer = ({ children }: { children: React.ReactNode }) => {
 						items: [
 							{
 								title: t("general.dashboard"),
-								url: "/dashboard",
+								url: "/",
 								icon: LayoutDashboardIcon,
 							},
+							{
+								title: t("general.attempedInterview"),
+								url: "/dashboard",
+								icon: SquaresIntersect,
+							},
+							{
+								title: t("general.myInterviewSessions"),
+								url: "/dashboard",
+								icon: NotebookPen,
+							},
+							{
+								title: t("general.resources"),
+								url: "/resources",
+								icon: Aperture
+							}
 						],
 					},
 					{
@@ -46,9 +68,9 @@ const SidebarContainer = ({ children }: { children: React.ReactNode }) => {
 					avatar: "https://via.placeholder.com/150",
 				}}
 			/>
-			<SidebarInset>
+			<SidebarInset className="w-full overflow-hidden">
 				<SiteHeader />
-				<div className="w-full h-full p-5">{children}</div>
+				<ScrollArea className="w-full p-5 overflow-hidden">{children}</ScrollArea>
 			</SidebarInset>
 		</SidebarProvider>
 	);

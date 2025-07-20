@@ -16,7 +16,10 @@
 		"mockAiInterview": "Mock Ai Interview",
 		"aiPoweredInterview": "AI-powered interview simulations",
 		"dashboard": "Dashboard",
-		"setting": "Setting"
+		"setting": "Setting",
+		"attempedInterview": "Attempted Interview",
+		"myInterviewSessions": "My Interview Sessions",
+		"resources": "Resources"
 	},
 	"login": {
 		"forgotPassword": "Forgot Password?",

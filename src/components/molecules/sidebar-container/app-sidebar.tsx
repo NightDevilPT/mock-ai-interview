@@ -8,6 +8,7 @@ import {
 	SidebarMenu,
 	SidebarMenuItem,
 	SidebarMenuButton,
+	useSidebar,
 } from "@/components/ui/sidebar";
 import Link from "next/link";
 import * as React from "react";
@@ -48,12 +49,12 @@ const SidebarNavItem = ({ item }: { item: NavItem }) => {
 		<SidebarMenuItem>
 			<SidebarMenuButton asChild>
 				<Link href={item.url} className="flex items-center gap-3">
-					<item.icon className="h-4 w-4" />
+					<item.icon className="h-5 w-5" />
 					<span>{item.title}</span>
 				</Link>
 			</SidebarMenuButton>
 			{item.items?.map((subItem, i) => (
-				<SidebarMenuItem key={i} className="ml-8">
+				<SidebarMenuItem key={i} className="">
 					<SidebarMenuButton asChild>
 						<Link href={subItem.url}>{subItem.title}</Link>
 					</SidebarMenuButton>
@@ -65,9 +66,10 @@ const SidebarNavItem = ({ item }: { item: NavItem }) => {
 
 // Navigation Group Component
 const SidebarNavGroup = ({ group }: { group: NavGroup }) => {
+	const sidebar = useSidebar();
 	return (
 		<>
-			<SidebarMenu className={group.className}>
+			<SidebarMenu className={`justify-center ${sidebar.state==="collapsed" && "items-center" } ${group.className}`}>
 				{group.groupName && (
 					<div className="px-4 py-2 text-xs font-medium text-muted-foreground uppercase tracking-wider">
 						{group.groupName}
@@ -91,11 +93,10 @@ export function AppSidebar({
 	...props
 }: SidebarNavProps) {
 	return (
-		<Sidebar collapsible="offcanvas" className={className} {...props}>
+		<Sidebar collapsible="icon" className={className} {...props}>
 			<SidebarHeader className="w-full h-auto">{logo}</SidebarHeader>
-			<Separator className="mt-2" />
 
-			<SidebarContent className="pt-4 pb-3 px-1">
+			<SidebarContent className="pt-4 pb-3 justify-center items-center">
 				{navGroups.map((group, index) => (
 					<SidebarNavGroup key={index} group={group} />
 				))}
@@ -104,7 +105,7 @@ export function AppSidebar({
 			<Separator className="mb-2" />
 
 			{user && (
-				<SidebarFooter className="p-1">
+				<SidebarFooter className="">
 					<NavUser user={user} position="right" />
 				</SidebarFooter>
 			)}

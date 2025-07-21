@@ -16,5 +16,6 @@ export enum ApiEndpoints {
 	LOGIN_USER = "/users/login",
 	FORGOT_PASSWORD = "/users/forgot",
 
-	GET_MY_SESSION = "/interview-sessions/me"
+	GET_MY_SESSION = "/interview-sessions/me",
+	CREATE_INTERVIEW_SESSION = "/interview-sessions/create",
 }

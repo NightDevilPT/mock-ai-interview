@@ -13,7 +13,6 @@ type HttpMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
 class ApiService {
 	private static client = axios.create({
 		baseURL: process.env.NEXT_PUBLIC_API_BASE_URL || "/api",
-		timeout: 15000,
 		headers: {
 			"Content-Type": "application/json",
 			Accept: "application/json",

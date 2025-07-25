@@ -132,30 +132,40 @@ export function validateInterviewPrompt(input: unknown): {
 		data: result.data,
 	};
 }
-
-
-// types/session.ts
 export interface Question {
 	id: string;
 	text: string;
-	type: string;
-	difficulty: string;
+	type: QuestionTypeEnum;
+	difficulty: QuestionDifficulty;
 	points: number;
 	order: number;
-  }
-  
-  export interface Creator {
+	category?: string | null;
+	estimatedDuration?: number | null;
+	options?: string[];
+	constraints?: {
+		maxLength: number;
+		minLength: number;
+		timeLimit: number;
+	}; // JSON type
+	hints?: string[];
+	tags?: string[];
+	content?: any; // JSON type for rich content
+	createdAt: string;
+	updatedAt: string;
+}
+
+export interface Creator {
 	id: string;
 	email: string;
 	avatar: string | null;
 	firstName: string;
 	lastName: string;
-  }
-  
-  export interface Session {
+}
+
+export interface Session {
 	id: string;
 	title: string;
-	description: string;
+	description?: string | null;
 	careerLevel: string;
 	experience: string;
 	domain: string;
@@ -163,36 +173,57 @@ export interface Question {
 	questionTypes: string[];
 	focusAreas: string[];
 	isPublic: boolean;
-	shareToken: string | null;
+	shareToken?: string | null;
 	status: string;
-	totalQuestions: number;
-	totalPoints: number;
+	totalQuestions?: number | null;
+	totalPoints?: number | null;
 	creatorId: string;
 	createdAt: string;
 	updatedAt: string;
 	creator: Creator;
 	questions: Question[];
-	_count: {
-	  questions: number;
-	  attempts: number;
+	_count?: {
+		questions: number;
+		attempts: number;
 	};
-  }
-  
-  export interface SessionsResponse {
-	statusCode: number;
+}
+
+export interface SessionResponse {
+	status: number;
 	message: string;
-	data: {
-	  sessions: Session[];
-	};
+	data: Session | Session[] | null;
 	meta: {
-	  page: number;
-	  limit: number;
-	  totalRecords: number;
-	  totalPages: number;
-	  isPrevious: boolean;
-	  isNext: boolean;
-	  startTime: string;
-	  endTime: string;
-	  durationMs: number;
+		page: number;
+		limit: number;
+		totalRecords: number;
+		totalPages: number;
+		isPrevious: boolean;
+		isNext: boolean;
+		startTime: string;
+		endTime: string;
+		durationMs: number;
 	};
-  }
+}
+// Add these types to your interface file
+export type QuestionAnswerType = 
+  | string        // For TEXT, CODING, MULTIPLE_CHOICE, DROPDOWN
+  | string[]      // For CHECKBOX
+  | number;       // For RATING
+
+export interface QuestionAnswer {
+    questionId: string;
+    answer: QuestionAnswerType;
+    isAnswered: boolean;
+    answeredAt?: string;
+    timeSpent?: number;
+}
+
+export interface QuestionAnswerState {
+    [questionId: string]: QuestionAnswer;
+}
+
+// Form data type based on question type
+export type FormDataByQuestionType<T extends QuestionTypeEnum> = 
+  T extends QuestionTypeEnum.CHECKBOX ? { questionId: string; answer: string[] } :
+  T extends QuestionTypeEnum.RATING ? { questionId: string; answer: number } :
+  { questionId: string; answer: string };

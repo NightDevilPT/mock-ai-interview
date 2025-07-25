@@ -54,28 +54,6 @@ export function SiteHeader() {
 			<div className="flex w-full items-center gap-1 px-4 lg:gap-2 lg:px-6">
 				<SidebarTrigger className="-ml-1" />
 
-				{/* Breadcrumb Navigation using shadcn components */}
-				<Breadcrumb className="hidden sm:flex">
-					<BreadcrumbList>
-						{breadcrumbs.map((crumb, index) => (
-							<BreadcrumbItem key={index}>
-								{index > 0 && <BreadcrumbSeparator />}
-								{index === breadcrumbs.length - 1 ? (
-									<BreadcrumbPage>
-										{crumb.label}
-									</BreadcrumbPage>
-								) : (
-									<BreadcrumbLink asChild>
-										<Link href={crumb.href}>
-											{crumb.label}
-										</Link>
-									</BreadcrumbLink>
-								)}
-							</BreadcrumbItem>
-						))}
-					</BreadcrumbList>
-				</Breadcrumb>
-
 				<div className="ml-auto flex items-center gap-2">
 					<ThemeToggle />
 					<LanguageSwitcher variant="ghost" showText={false} />

@@ -18,4 +18,5 @@ export enum ApiEndpoints {
 
 	GET_MY_SESSION = "/interview-sessions/me",
 	CREATE_INTERVIEW_SESSION = "/interview-sessions/create",
+	GET_SESSION_BY_ID = "/interview-sessions/get-sessions/",
 }

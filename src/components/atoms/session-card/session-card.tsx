@@ -142,12 +142,17 @@ export function SessionCard({
 							<div className="flex items-center gap-1">
 								<FileText className="w-3 h-3" />
 								<span>
-									{session._count.questions} questions
+									{session?._count &&
+										session?._count.questions}{" "}
+									questions
 								</span>
 							</div>
 							<div className="flex items-center gap-1">
 								<Users className="w-3 h-3" />
-								<span>{session._count.attempts} attempts</span>
+								<span>
+									{session?._count && session._count.attempts}{" "}
+									attempts
+								</span>
 							</div>
 						</div>
 					</div>

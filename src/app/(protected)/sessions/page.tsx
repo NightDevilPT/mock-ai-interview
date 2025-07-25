@@ -9,8 +9,10 @@ import { Session } from "@/interface/interview-session.interface";
 import { InterviewSessionDialog } from "./_components/session-form";
 import { SessionCardSkeleton } from "@/components/atoms/session-card/session-card-skeleton";
 import { SessionCard } from "@/components/atoms/session-card/session-card";
+import { useRouter } from "next/navigation";
 
 export default function DashboardPage() {
+	const route = useRouter()
 	const [sessions, setSessions] = useState<Session[]>([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
@@ -56,6 +58,7 @@ export default function DashboardPage() {
 	const handleStart = (session: Session) => {
 		console.log("Start session:", session);
 		// TODO: Navigate to interview page
+		route.push("/sessions/"+session.id)
 	};
 
 	const handleView = (session: Session) => {

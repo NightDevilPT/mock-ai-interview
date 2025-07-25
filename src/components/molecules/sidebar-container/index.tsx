@@ -34,21 +34,21 @@ const SidebarContainer = ({ children }: { children: React.ReactNode }) => {
 								url: "/",
 								icon: LayoutDashboardIcon,
 							},
+							// {
+							// 	title: t("general.attempedInterview"),
+							// 	url: "/attempted-interview",
+							// 	icon: SquaresIntersect,
+							// },
 							{
-								title: t("general.attempedInterview"),
-								url: "/attempted-interview",
-								icon: SquaresIntersect,
-							},
-							{
-								title: t("general.myInterviewSessions"),
-								url: "/my-interview-sessions",
+								title: t("general.sessions", "Sessions") || 'Sessions',
+								url: "/sessions",
 								icon: NotebookPen,
 							},
-							{
-								title: t("general.resources"),
-								url: "/resources",
-								icon: Aperture
-							}
+							// {
+							// 	title: t("general.resources"),
+							// 	url: "/resources",
+							// 	icon: Aperture
+							// }
 						],
 					},
 					{

@@ -1,6 +1,6 @@
 import React from "react";
 import InterviewPage from "./_components/question-page";
-import { SessionProvider } from "@/components/molecules/session-form-container";
+import { SessionProvider } from "@/components/providers/session-form-provider";
 
 export default async function page({
 	params,

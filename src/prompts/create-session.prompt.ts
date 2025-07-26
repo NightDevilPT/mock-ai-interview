@@ -5,12 +5,19 @@ export const generateInterviewPrompt = ChatPromptTemplate.fromMessages([
 		"system",
 		`You are an expert interview designer with strict formatting requirements. Generate exactly {totalQuestions} questions that MUST conform to this specification.
 
+## CRITICAL CONSTRAINT - READ CAREFULLY: 
+You MUST ONLY generate questions with types from this EXACT list: {questionTypes}
+This is NON-NEGOTIABLE. Every single question's "type" field must be one of: {questionTypes}
+If questionTypes = ["MULTIPLE_CHOICE", "CODING"], then you can ONLY create MULTIPLE_CHOICE and CODING questions.
+NO TEXT questions, NO other types - ONLY the types specified in {questionTypes}.
+
 ## STRICT FORMATTING RULES:
 1. Output MUST be valid JSON parsable by JSON.parse()
 2. Every field must be present, even if empty
 3. Follow the examples EXACTLY
 4. No deviations from the structure
 5. No additional commentary
+6. ONLY use question types from the provided questionTypes array: {questionTypes}
 
 ## PARAMETERS:
 {{
@@ -34,7 +41,7 @@ export const generateInterviewPrompt = ChatPromptTemplate.fromMessages([
     "experience": "string",
     "domain": "string",
     "difficulty": "string",
-    "questionTypes": ["string"],
+    "questionTypes": {questionTypes},
     "focusAreas": ["string"],
     "totalQuestions": number,
     "totalPoints": number,
@@ -89,7 +96,7 @@ export const generateInterviewPrompt = ChatPromptTemplate.fromMessages([
           "order": number
         }}
       ],
-      "type": "MULTIPLE_CHOICE|CHECKBOX|TEXT|DROPDOWN",
+      "type": "MUST_BE_EXACTLY_FROM_{questionTypes}_ARRAY",
       "category": "string",
       "difficulty": "EASY|MEDIUM|HARD",
       "estimatedDuration": number,
@@ -110,116 +117,74 @@ export const generateInterviewPrompt = ChatPromptTemplate.fromMessages([
   ]
 }}
 
-## EXAMPLE 1: TEXT RESPONSE
-{{
-  "text": "Describe a time you resolved a workplace conflict",
-  "content": [
-    {{
-      "type": "paragraph",
-      "data": {{
-        "text": "Explain a specific example from your experience."
-      }},
-      "order": 1
-    }},
-    {{
-      "type": "list",
-      "data": {{
-        "items": [
-          "Describe the situation",
-          "Explain your actions",
-          "Share the outcome"
-        ],
-        "style": "ordered"
-      }},
-      "order": 2
-    }}
-  ],
-  "type": "TEXT",
-  "category": "Behavioral",
-  "difficulty": "MEDIUM",
-  "estimatedDuration": 180,
-  "points": 15,
-  "order": 1,
-  "options": [],
-  "constraints": {{
-    "maxLength": 500,
-    "minLength": 100,
-    "timeLimit": 180
-  }},
-  "hints": [
-    "Use STAR method (Situation, Task, Action, Result)"
-  ],
-  "tags": ["conflict-resolution", "behavioral"],
-  "idealAnswer": "When I was a project manager at X, two team members disagreed about... [detailed example following STAR method]",
-  "scoringCriteria": [
-    "Clear situation description",
-    "Appropriate resolution approach",
-    "Measurable outcome",
-    "Professional tone"
-  ]
-}}
-
-## EXAMPLE 2: MULTIPLE CHOICE
-{{
-  "text": "Which is most important in customer service?",
-  "content": [
-    {{
-      "type": "paragraph",
-      "data": {{
-        "text": "Select the single most important principle."
-      }},
-      "order": 1
-    }}
-  ],
-  "type": "MULTIPLE_CHOICE",
-  "category": "Customer Service",
-  "difficulty": "EASY",
-  "estimatedDuration": 60,
-  "points": 5,
-  "order": 2,
-  "options": [
-    "Responding quickly",
-    "Being polite",
-    "Solving the problem",
-    "Documenting the interaction"
-  ],
-  "correctOption": 2,
-  "constraints": {{
-    "maxLength": 0,
-    "minLength": 0,
-    "timeLimit": 60
-  }},
-  "hints": [
-    "Consider long-term customer relationships"
-  ],
-  "tags": ["customer-service", "principles"],
-  "idealAnswer": "Being polite establishes the foundation for all other customer interactions.",
-  "scoringCriteria": [
-    "Correct answer selected",
-    "Demonstrates understanding of priorities"
-  ]
-}}
-
 ## CONTENT RULES:
 1. Paragraphs: Max 2 sentences
 2. Lists: Max 5 items
-3. Code: Only if domain requires it
+3. Code: Only if domain requires it or type is CODING
 4. Media: Only URL to professional images
 5. Tables: Max 3 columns, 5 rows
 
-## QUESTION RULES:
-1. Multiple Choice: Exactly 4 options
-2. Checkbox: At least 3 options
-3. Text: Minimum 100 characters required
-4. Dropdown: At least 5 options
+## QUESTION TYPE DISTRIBUTION (STRICT ENFORCEMENT):
+Given questionTypes = {questionTypes}:
+- If {questionTypes} contains "MULTIPLE_CHOICE" and "CODING": Create roughly 50% MULTIPLE_CHOICE and 50% CODING
+- If {questionTypes} contains "TEXT" and "CODING": Create roughly 50% TEXT and 50% CODING
+- If {questionTypes} contains only "MULTIPLE_CHOICE": Create 100% MULTIPLE_CHOICE questions
+- If {questionTypes} contains only "CODING": Create 100% CODING questions
+- If {questionTypes} contains only "TEXT": Create 100% TEXT questions
+- NEVER create any question type not listed in {questionTypes}
 
-## VALIDATION:
-1. JSON.parse() must succeed
-2. All required fields present
-3. No empty arrays unless allowed
-4. All durations in seconds
-5. All points >= 1
 
-Now generate exactly {totalQuestions} questions following these rules precisely. Output ONLY the JSON.`,
+## QUESTION RULES BY TYPE:
+### IF "TEXT" is in {questionTypes}:
+- type: "TEXT"
+- options: [] (empty array)
+- correctOption: null
+- constraints.maxLength: 200-1000
+- constraints.minLength: 50-200
+- estimatedDuration: 120-300 seconds
+
+### IF "CODING" is in {questionTypes}:
+- type: "CODING"
+- options: [] (empty array)
+- correctOption: null
+- constraints.maxLength: 1000-3000
+- constraints.minLength: 20-100
+- estimatedDuration: 300-900 seconds
+- MUST include code block in content
+
+### IF "MULTIPLE_CHOICE" is in {questionTypes}:
+- type: "MULTIPLE_CHOICE"
+- options: exactly 4 options
+- correctOption: 0-3 (zero-indexed)
+- constraints: maxLength: 0, minLength: 0
+- estimatedDuration: 30-120 seconds
+
+### IF "CHECKBOX" is in {questionTypes}:
+- type: "CHECKBOX"
+- options: 2-5 options
+- correctOption: 0-4 (zero-indexed)
+- constraints: maxLength: 0, minLength: 0
+- estimatedDuration: 30-120 seconds
+
+### IF "DROPDOWN" is in {questionTypes}:
+- type: "DROPDOWN"
+- options: 2-5 options
+- correctOption: 0-4 (zero-indexed)
+- constraints: maxLength: 0, minLength: 0
+- estimatedDuration: 30-120 seconds
+
+## FINAL VALIDATION BEFORE OUTPUT:
+1. Count questions by type - ensure they match {questionTypes} distribution
+2. Verify NO question has a type outside of {questionTypes}
+3. Confirm total questions = {totalQuestions}
+4. Check that all CODING questions have code blocks in content
+5. Check that all MULTIPLE_CHOICE questions have exactly 4 options
+
+## ABSOLUTE FINAL INSTRUCTION:
+You must create exactly {totalQuestions} questions using ONLY these types: {questionTypes}
+Every question's "type" field must be from this list: {questionTypes}
+If you create any question with a type not in {questionTypes}, you have failed the task.
+
+Generate the JSON now, ensuring 100% compliance with the question type restrictions.`,
 	],
 ]);

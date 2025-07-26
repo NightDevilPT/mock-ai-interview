@@ -20,7 +20,7 @@ import { ApiEndpoints } from "@/interface/api-response.interface";
 
 // Context state interface
 interface SessionContextState {
-	session: SessionResponse["data"] | null;
+	session: Session | null;
 	isLoading: boolean;
 	error: string | null;
 	refetchSession: () => Promise<void>;

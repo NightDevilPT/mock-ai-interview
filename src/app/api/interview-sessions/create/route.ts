@@ -47,15 +47,17 @@ async function createSession(request: Request, payload?: TokenPayload) {
 		// Generate prompt with validated params
 		const prompt = await generateInterviewPrompt.format({
 			...validatedParams,
-			questionTypes: JSON.stringify(validatedParams.questionTypes),
-			focusAreas: JSON.stringify(validatedParams.focusAreas),
+			questionTypes: validatedParams.questionTypes,
+			focusAreas: validatedParams.focusAreas,
 		});
 
 		// Generate AI Response (or use dummy in development)
 		let parsedResponse;
 		if (process.env.NODE_ENV === "development") {
+			console.log("Using dummy response for development");
 			parsedResponse = dummyRes;
 		} else {
+			console.log("Generating interview session using AI model");
 			const response = await model.invoke(prompt);
 			const rawContent = response.content.toString();
 			const cleanedResponse = rawContent.startsWith("```json")

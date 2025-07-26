@@ -19,227 +19,167 @@
 	},
 	"questions": [
 		{
-			"text": "Which of the following is NOT a core principle of microservices architecture?",
-			"content": [
-				{
-					"type": "paragraph",
-					"data": {
-						"text": "Select the option that does not align with microservices design principles."
-					},
-					"order": 1
-				}
-			],
+			"text": "Which of the following hooks is primarily used for managing side effects in React functional components?",
+			"content": [],
 			"type": "MULTIPLE_CHOICE",
-			"category": "Microservices",
-			"difficulty": "EASY",
-			"estimatedDuration": 90,
+			"category": "ReactJS",
+			"difficulty": "MEDIUM",
+			"estimatedDuration": 60,
 			"points": 10,
-			"order": 1,
-			"options": [
-				"Independent deployability",
-				"Centralized data storage",
-				"Bounded contexts",
-				"Decentralized governance"
-			],
+			"order": 0,
+			"options": ["useState", "useEffect", "useContext", "useReducer"],
 			"correctOption": 1,
 			"constraints": {
 				"maxLength": 0,
-				"minLength": 0,
-				"timeLimit": 90
+				"minLength": 0
 			},
-			"hints": ["Think about data ownership in a distributed system."],
-			"tags": ["microservices", "architecture"],
-			"idealAnswer": "Centralized data storage is typically avoided in microservices, favoring decentralized data management per service.",
+			"hints": [],
+			"tags": ["React", "Hooks", "Side Effects"],
+			"idealAnswer": "The `useEffect` hook is used for side effects like data fetching, subscriptions, or manually changing the DOM in React functional components.",
 			"scoringCriteria": [
-				"Correct answer selected",
-				"Demonstrates understanding of microservices principles"
+				"Correctly identifies useEffect as the hook for side effects."
 			]
 		},
 		{
-			"text": "Describe how you would implement an idempotent API endpoint in a Node.js microservice.",
+			"text": "Create a simple React functional component that displays a counter. The component should have two buttons: one to increment the counter and one to decrement it. The counter should start at 0.",
 			"content": [
 				{
 					"type": "paragraph",
 					"data": {
-						"text": "Explain the concept of idempotency and outline a practical approach for its implementation in a Node.js service, considering potential challenges."
+						"text": "Implement the `Counter` component using React hooks. Ensure the component is a functional component and handles state correctly."
 					},
-					"order": 1
-				},
-				{
-					"type": "list",
-					"data": {
-						"items": [
-							"Define idempotency in the context of APIs.",
-							"Propose a mechanism for tracking request uniqueness.",
-							"Discuss how to handle concurrent requests.",
-							"Mention potential edge cases or considerations."
-						],
-						"style": "ordered"
-					},
-					"order": 2
-				}
-			],
-			"type": "TEXT",
-			"category": "Node.js",
-			"difficulty": "MEDIUM",
-			"estimatedDuration": 240,
-			"points": 20,
-			"order": 2,
-			"options": [],
-			"correctOption": -1,
-			"constraints": {
-				"maxLength": 750,
-				"minLength": 150,
-				"timeLimit": 240
-			},
-			"hints": [
-				"Consider using a unique identifier (e.g., idempotency key) in the request header.",
-				"Think about database transactions or a distributed cache like Redis."
-			],
-			"tags": ["node.js", "api-design", "microservices", "idempotency"],
-			"idealAnswer": "Idempotency means that multiple identical requests have the same effect as a single request. To implement this in Node.js, a common approach is to use an 'Idempotency-Key' header. Upon receiving a request with this key, the service checks a distributed store (e.g., Redis or a dedicated database table) if the key has been processed. If it's in progress, return a 409 Conflict; if completed, return the original result. If new, store the key, process the request, and then mark the key as completed. This requires careful handling of race conditions, often with atomic operations or distributed locks.",
-			"scoringCriteria": [
-				"Clear definition of idempotency",
-				"Robust implementation strategy (e.g., idempotency key, distributed store)",
-				"Consideration of concurrency and error handling",
-				"Demonstrates practical Node.js knowledge"
-			]
-		},
-		{
-			"text": "Optimize the following Node.js code snippet for database interaction and explain your changes.",
-			"content": [
-				{
-					"type": "paragraph",
-					"data": {
-						"text": "Review the provided code. Identify potential performance bottlenecks related to database operations and rewrite the code to improve efficiency and resource utilization."
-					},
-					"order": 1
+					"order": 0
 				},
 				{
 					"type": "code",
 					"data": {
-						"code": "async function getUserOrders(userId) {\n  const user = await db.query('SELECT * FROM users WHERE id = ?', [userId]);\n  if (!user) return null;\n\n  const orders = [];\n  const orderIds = await db.query('SELECT order_id FROM user_orders WHERE user_id = ?', [userId]);\n  for (const orderId of orderIds) {\n    const orderDetails = await db.query('SELECT * FROM orders WHERE id = ?', [orderId.order_id]);\n    orders.push(orderDetails);\n  }\n  return { user, orders };\n}",
+						"code": "import React, { useState } from 'react';\n\nconst Counter = () => {\n  // Your code here\n};\n\nexport default Counter;",
 						"language": "javascript"
-					},
-					"order": 2
-				},
-				{
-					"type": "paragraph",
-					"data": {
-						"text": "Explain the specific optimizations made and why they improve performance."
-					},
-					"order": 3
-				}
-			],
-			"type": "TEXT",
-			"category": "Coding",
-			"difficulty": "MEDIUM",
-			"estimatedDuration": 450,
-			"points": 30,
-			"order": 3,
-			"options": [],
-			"correctOption": -1,
-			"constraints": {
-				"maxLength": 1000,
-				"minLength": 200,
-				"timeLimit": 450
-			},
-			"hints": [
-				"Look for N+1 query problems.",
-				"Consider using JOINs or batching queries."
-			],
-			"tags": ["node.js", "database-optimization", "sql", "performance"],
-			"idealAnswer": "The original code suffers from an N+1 query problem, where for each order ID, a separate database query is made. This leads to many round trips to the database. The optimized approach uses a single JOIN query or an IN clause to fetch all necessary order details in one go.\n\n```javascript\nasync function getUserOrdersOptimized(userId) {\n  const [user] = await db.query('SELECT * FROM users WHERE id = ?', [userId]);\n  if (!user) return null;\n\n  // Option 1: Using a JOIN\n  const orders = await db.query(\n    'SELECT o.* FROM orders o JOIN user_orders uo ON o.id = uo.order_id WHERE uo.user_id = ?',\n    [userId]\n  );\n\n  // Option 2: Using IN clause (if user_orders only contains order_id and user_id)\n  // const orderIdsResult = await db.query('SELECT order_id FROM user_orders WHERE user_id = ?', [userId]);\n  // const orderIds = orderIdsResult.map(row => row.order_id);\n  // if (orderIds.length === 0) return { user, orders: [] };\n  // const orders = await db.query('SELECT * FROM orders WHERE id IN (?)', [orderIds]);\n\n  return { user, orders };\n}\n```\n\nThis optimization reduces the number of database queries from 1 (for user) + N (for orders) to just 2 (1 for user, 1 for all orders), significantly reducing network latency and database load, especially for users with many orders.",
-			"scoringCriteria": [
-				"Identifies N+1 problem correctly",
-				"Provides a correct and optimized code solution (e.g., JOIN or IN clause)",
-				"Clearly explains the performance benefits of the changes",
-				"Demonstrates strong SQL and Node.js database interaction knowledge"
-			]
-		},
-		{
-			"text": "Which AWS service is best suited for managing and orchestrating Docker containers at scale?",
-			"content": [
-				{
-					"type": "paragraph",
-					"data": {
-						"text": "Choose the AWS service specifically designed for container orchestration."
 					},
 					"order": 1
 				}
 			],
+			"type": "CODING",
+			"category": "ReactJS",
+			"difficulty": "MEDIUM",
+			"estimatedDuration": 450,
+			"points": 50,
+			"order": 1,
+			"options": [],
+			"correctOption": null,
+			"constraints": {
+				"maxLength": 2000,
+				"minLength": 50,
+				"timeLimit": 600
+			},
+			"hints": [
+				"Consider using the `useState` hook for state management.",
+				"Ensure your buttons have `onClick` handlers to update the state."
+			],
+			"tags": ["React", "Hooks", "State Management", "Component"],
+			"idealAnswer": "A React functional component using `useState` to manage a counter, with increment and decrement buttons that update the counter's state.",
+			"scoringCriteria": [
+				"Correct use of `useState` for counter state.",
+				"Buttons correctly increment and decrement the counter.",
+				"Component renders the current count.",
+				"Code is clean and readable."
+			]
+		},
+		{
+			"text": "Which core Node.js module is primarily used for building HTTP servers and clients?",
+			"content": [],
 			"type": "MULTIPLE_CHOICE",
-			"category": "AWS",
+			"category": "Nodejs",
 			"difficulty": "EASY",
-			"estimatedDuration": 90,
+			"estimatedDuration": 45,
 			"points": 10,
-			"order": 4,
-			"options": ["AWS Lambda", "Amazon S3", "Amazon ECS", "Amazon EC2"],
+			"order": 2,
+			"options": ["fs", "path", "http", "url"],
 			"correctOption": 2,
 			"constraints": {
 				"maxLength": 0,
-				"minLength": 0,
-				"timeLimit": 90
+				"minLength": 0
 			},
-			"hints": [
-				"This service allows you to run, stop, and manage Docker containers on a cluster."
-			],
-			"tags": ["aws", "containers", "orchestration"],
-			"idealAnswer": "Amazon ECS (Elastic Container Service) is AWS's native container orchestration service, ideal for managing Docker containers at scale.",
-			"scoringCriteria": [
-				"Correct answer selected",
-				"Demonstrates basic knowledge of AWS container services"
-			]
+			"hints": [],
+			"tags": ["Node.js", "Core Modules", "HTTP"],
+			"idealAnswer": "The `http` module is the core Node.js module for building HTTP servers and clients.",
+			"scoringCriteria": ["Correctly identifies the `http` module."]
 		},
 		{
-			"text": "You are designing a new microservice that needs to process a high volume of incoming events asynchronously. Outline a robust architecture using AWS services.",
+			"text": "Write a Node.js script that reads a file named `data.txt` asynchronously and prints its content to the console. If the file does not exist, it should print an appropriate error message.",
 			"content": [
 				{
 					"type": "paragraph",
 					"data": {
-						"text": "Describe a system design that handles asynchronous event processing, focusing on scalability, reliability, and decoupling components."
+						"text": "Use the built-in `fs` module for file operations. Ensure proper error handling, especially for the 'file not found' scenario."
 					},
-					"order": 1
+					"order": 0
 				},
 				{
-					"type": "list",
+					"type": "code",
 					"data": {
-						"items": [
-							"Identify key AWS services for event ingestion.",
-							"Explain how messages would be queued and processed.",
-							"Discuss error handling and retry mechanisms.",
-							"Consider scalability and monitoring aspects."
-						],
-						"style": "ordered"
+						"code": "const fs = require('fs');\nconst fileName = 'data.txt';\n\n// Your code here",
+						"language": "javascript"
 					},
-					"order": 2
+					"order": 1
 				}
 			],
-			"type": "TEXT",
-			"category": "AWS",
+			"type": "CODING",
+			"category": "Nodejs",
 			"difficulty": "MEDIUM",
-			"estimatedDuration": 240,
-			"points": 20,
-			"order": 5,
+			"estimatedDuration": 600,
+			"points": 60,
+			"order": 3,
 			"options": [],
-			"correctOption": -1,
+			"correctOption": null,
 			"constraints": {
-				"maxLength": 800,
-				"minLength": 150,
-				"timeLimit": 240
+				"maxLength": 2500,
+				"minLength": 70,
+				"timeLimit": 720
 			},
 			"hints": [
-				"Think about message queues and serverless compute.",
-				"How would you ensure messages are not lost and processed exactly once (or at least once)?"
+				"Look into `fs.readFile` or `fs.promises.readFile` for asynchronous file reading.",
+				"Remember to handle the error object in the callback or catch block for robust error handling."
 			],
-			"tags": ["aws", "system-design", "asynchronous", "microservices"],
-			"idealAnswer": "For high-volume asynchronous event processing on AWS, a common and robust architecture involves using Amazon Kinesis or SQS for event ingestion and queuing, and AWS Lambda or ECS Fargate for processing. Events would first be published to a Kinesis Data Stream (for high throughput, ordered events) or an SQS queue (for simpler message queuing). A Lambda function or an application running on ECS Fargate would then consume messages from the stream/queue. For error handling, dead-letter queues (DLQs) can be configured for SQS/Lambda to capture failed messages. Retries are handled automatically by SQS/Lambda or can be implemented with exponential backoff. Scalability is inherent with these services, as Kinesis/SQS scale automatically, and Lambda/Fargate can scale out based on load. Monitoring would involve CloudWatch metrics and logs for visibility into throughput, errors, and latency.",
+			"tags": [
+				"Node.js",
+				"File System",
+				"Asynchronous",
+				"Error Handling"
+			],
+			"idealAnswer": "A Node.js script using `fs.readFile` with a callback or `fs.promises.readFile` with `async/await` to read a file, including error handling for file not found.",
 			"scoringCriteria": [
-				"Proposes appropriate AWS services (e.g., Kinesis/SQS, Lambda/Fargate)",
-				"Explains the flow of events through the system",
-				"Addresses error handling and retry mechanisms (e.g., DLQs)",
-				"Discusses scalability and reliability aspects",
-				"Demonstrates strong system design and AWS knowledge"
+				"Correctly uses `fs.readFile` (or promise equivalent).",
+				"Prints file content to console on success.",
+				"Handles file not found error gracefully.",
+				"Code is asynchronous and robust."
+			]
+		},
+		{
+			"text": "Explain the concept of Server-Side Rendering (SSR) in Next.js and describe a scenario where you would prefer SSR over Client-Side Rendering (CSR).",
+			"content": [],
+			"type": "TEXT",
+			"category": "NextJS",
+			"difficulty": "HARD",
+			"estimatedDuration": 240,
+			"points": 30,
+			"order": 4,
+			"options": [],
+			"correctOption": null,
+			"constraints": {
+				"maxLength": 800,
+				"minLength": 100
+			},
+			"hints": [
+				"Consider the benefits for SEO and initial page load performance.",
+				"Think about data fetching strategies and user experience for different types of applications."
+			],
+			"tags": ["Next.js", "SSR", "CSR", "Rendering"],
+			"idealAnswer": "SSR in Next.js means pages are rendered on the server before being sent to the client, resulting in a fully formed HTML page. This improves initial load time and SEO because search engine crawlers can easily index the content. A scenario where SSR is preferred over CSR is for public-facing content-heavy websites like e-commerce stores or news blogs, where SEO is crucial and users need to see content quickly without waiting for client-side JavaScript to load and fetch data.",
+			"scoringCriteria": [
+				"Provides a clear and accurate definition of SSR.",
+				"Explains key advantages of SSR (e.g., SEO, initial load performance).",
+				"Presents a relevant and well-justified scenario for choosing SSR over CSR."
 			]
 		}
 	]

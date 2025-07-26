@@ -1,185 +1,433 @@
 {
 	"metadata": {
 		"title": "Senior Backend Engineer Interview",
-		"description": "Technical assessment for Node.js and microservices architecture",
+		"description": "Comprehensive technical assessment covering Node.js, microservices architecture, database optimization, and AWS cloud services",
 		"careerLevel": "SENIOR",
 		"experience": "FIVE_TO_TEN_YEARS",
 		"domain": "Backend Development",
-		"difficulty": "EASY",
-		"questionTypes": ["MULTIPLE_CHOICE", "TEXT", "CODING"],
+		"difficulty": "MIXED",
+		"questionTypes": [
+			"MULTIPLE_CHOICE",
+			"CHECKBOX",
+			"TEXT",
+			"DROPDOWN",
+			"RATING",
+			"CODING"
+		],
 		"focusAreas": [
 			"Node.js",
 			"Microservices",
 			"Database Optimization",
-			"AWS"
+			"AWS",
+			"DevOps"
 		],
-		"totalQuestions": 5,
-		"totalPoints": 90,
-		"estimatedDuration": 1110
+		"totalQuestions": 12,
+		"totalPoints": 235,
+		"estimatedDuration": 1545
 	},
 	"questions": [
 		{
-			"text": "Which of the following hooks is primarily used for managing side effects in React functional components?",
+			"text": "Which HTTP status code indicates that a resource was successfully created?",
 			"content": [],
 			"type": "MULTIPLE_CHOICE",
-			"category": "ReactJS",
-			"difficulty": "MEDIUM",
+			"category": "Backend Development",
+			"difficulty": "EASY",
 			"estimatedDuration": 60,
 			"points": 10,
 			"order": 0,
-			"options": ["useState", "useEffect", "useContext", "useReducer"],
+			"options": [
+				"200 OK",
+				"201 Created",
+				"202 Accepted",
+				"204 No Content"
+			],
 			"correctOption": 1,
 			"constraints": {
 				"maxLength": 0,
 				"minLength": 0
 			},
 			"hints": [],
-			"tags": ["React", "Hooks", "Side Effects"],
-			"idealAnswer": "The `useEffect` hook is used for side effects like data fetching, subscriptions, or manually changing the DOM in React functional components.",
+			"tags": ["HTTP", "Status Codes", "REST API"],
+			"idealAnswer": "201 Created indicates that a request has been fulfilled and has resulted in one or more new resources being created.",
 			"scoringCriteria": [
-				"Correctly identifies useEffect as the hook for side effects."
+				"Correctly identifies 201 Created as the status code for successful resource creation."
 			]
 		},
 		{
-			"text": "Create a simple React functional component that displays a counter. The component should have two buttons: one to increment the counter and one to decrement it. The counter should start at 0.",
-			"content": [
-				{
-					"type": "paragraph",
-					"data": {
-						"text": "Implement the `Counter` component using React hooks. Ensure the component is a functional component and handles state correctly."
-					},
-					"order": 0
-				},
-				{
-					"type": "code",
-					"data": {
-						"code": "import React, { useState } from 'react';\n\nconst Counter = () => {\n  // Your code here\n};\n\nexport default Counter;",
-						"language": "javascript"
-					},
-					"order": 1
-				}
-			],
-			"type": "CODING",
-			"category": "ReactJS",
-			"difficulty": "MEDIUM",
-			"estimatedDuration": 450,
-			"points": 50,
-			"order": 1,
-			"options": [],
-			"correctOption": null,
-			"constraints": {
-				"maxLength": 2000,
-				"minLength": 50,
-				"timeLimit": 600
-			},
-			"hints": [
-				"Consider using the `useState` hook for state management.",
-				"Ensure your buttons have `onClick` handlers to update the state."
-			],
-			"tags": ["React", "Hooks", "State Management", "Component"],
-			"idealAnswer": "A React functional component using `useState` to manage a counter, with increment and decrement buttons that update the counter's state.",
-			"scoringCriteria": [
-				"Correct use of `useState` for counter state.",
-				"Buttons correctly increment and decrement the counter.",
-				"Component renders the current count.",
-				"Code is clean and readable."
-			]
-		},
-		{
-			"text": "Which core Node.js module is primarily used for building HTTP servers and clients?",
+			"text": "Which design pattern is commonly used in Node.js to handle asynchronous operations without blocking the main thread?",
 			"content": [],
 			"type": "MULTIPLE_CHOICE",
-			"category": "Nodejs",
-			"difficulty": "EASY",
-			"estimatedDuration": 45,
-			"points": 10,
-			"order": 2,
-			"options": ["fs", "path", "http", "url"],
+			"category": "Node.js",
+			"difficulty": "MEDIUM",
+			"estimatedDuration": 90,
+			"points": 15,
+			"order": 1,
+			"options": [
+				"Singleton Pattern",
+				"Observer Pattern",
+				"Event Loop Pattern",
+				"Factory Pattern"
+			],
 			"correctOption": 2,
 			"constraints": {
 				"maxLength": 0,
 				"minLength": 0
 			},
-			"hints": [],
-			"tags": ["Node.js", "Core Modules", "HTTP"],
-			"idealAnswer": "The `http` module is the core Node.js module for building HTTP servers and clients.",
-			"scoringCriteria": ["Correctly identifies the `http` module."]
+			"hints": [
+				"Think about Node.js's core architecture for handling I/O operations"
+			],
+			"tags": ["Node.js", "Design Patterns", "Asynchronous Programming"],
+			"idealAnswer": "The Event Loop Pattern is fundamental to Node.js, allowing it to handle asynchronous operations efficiently without blocking the main thread.",
+			"scoringCriteria": [
+				"Correctly identifies the Event Loop Pattern as Node.js's core asynchronous handling mechanism."
+			]
 		},
 		{
-			"text": "Write a Node.js script that reads a file named `data.txt` asynchronously and prints its content to the console. If the file does not exist, it should print an appropriate error message.",
+			"text": "Select all the AWS services that are commonly used for building microservices architectures:",
+			"content": [],
+			"type": "CHECKBOX",
+			"category": "AWS",
+			"difficulty": "MEDIUM",
+			"estimatedDuration": 120,
+			"points": 20,
+			"order": 2,
+			"options": [
+				"Amazon ECS",
+				"AWS Lambda",
+				"Amazon RDS",
+				"Amazon API Gateway",
+				"Amazon S3",
+				"AWS Step Functions"
+			],
+			"correctOptions": [0, 1, 3, 5],
+			"constraints": {
+				"maxLength": 0,
+				"minLength": 0
+			},
+			"hints": [
+				"Consider services that help with containerization, serverless computing, API management, and workflow orchestration"
+			],
+			"tags": ["AWS", "Microservices", "Cloud Architecture"],
+			"idealAnswer": "Amazon ECS (containerization), AWS Lambda (serverless functions), Amazon API Gateway (API management), and AWS Step Functions (workflow orchestration) are key services for microservices.",
+			"scoringCriteria": [
+				"Selects Amazon ECS for container orchestration",
+				"Selects AWS Lambda for serverless microservices",
+				"Selects Amazon API Gateway for API management",
+				"Selects AWS Step Functions for workflow orchestration",
+				"Does not select storage-only services like RDS or S3"
+			]
+		},
+		{
+			"text": "Which of the following database optimization techniques should be applied for improving query performance? (Select all that apply)",
+			"content": [],
+			"type": "CHECKBOX",
+			"category": "Database Optimization",
+			"difficulty": "MEDIUM",
+			"estimatedDuration": 150,
+			"points": 25,
+			"order": 3,
+			"options": [
+				"Creating appropriate indexes",
+				"Query result caching",
+				"Database normalization",
+				"Connection pooling",
+				"Using SELECT *",
+				"Partitioning large tables"
+			],
+			"correctOptions": [0, 1, 2, 3, 5],
+			"constraints": {
+				"maxLength": 0,
+				"minLength": 0
+			},
+			"hints": [
+				"Think about techniques that reduce query execution time and improve resource utilization"
+			],
+			"tags": ["Database", "Performance", "Optimization"],
+			"idealAnswer": "Proper indexing, caching, normalization, connection pooling, and table partitioning all contribute to better database performance. Using SELECT * should be avoided.",
+			"scoringCriteria": [
+				"Selects indexing as a key optimization technique",
+				"Selects caching for improved response times",
+				"Selects normalization for data integrity and efficiency",
+				"Selects connection pooling for resource management",
+				"Selects partitioning for large table management",
+				"Does not select SELECT * as it's an anti-pattern"
+			]
+		},
+		{
+			"text": "Describe the advantages and disadvantages of using microservices architecture compared to monolithic architecture. Include considerations for team scalability, deployment complexity, and system reliability.",
+			"content": [],
+			"type": "TEXT",
+			"category": "Microservices",
+			"difficulty": "HARD",
+			"estimatedDuration": 300,
+			"points": 35,
+			"order": 4,
+			"options": [],
+			"correctOption": null,
+			"constraints": {
+				"maxLength": 1000,
+				"minLength": 200
+			},
+			"hints": [
+				"Consider both technical and organizational aspects",
+				"Think about how each architecture affects development teams and operations"
+			],
+			"tags": ["Microservices", "Architecture", "System Design"],
+			"idealAnswer": "Microservices offer advantages like independent deployments, technology diversity, team autonomy, and fault isolation. However, they introduce complexity in service communication, distributed system challenges, and operational overhead. Monoliths are simpler to develop and deploy initially but can become bottlenecks as teams and features grow. The choice depends on team size, system complexity, and organizational maturity.",
+			"scoringCriteria": [
+				"Identifies key advantages of microservices (independence, scalability, team autonomy)",
+				"Recognizes disadvantages (complexity, distributed system challenges)",
+				"Compares with monolithic architecture appropriately",
+				"Addresses team scalability, deployment, and reliability considerations",
+				"Provides balanced perspective on when to use each approach"
+			]
+		},
+		{
+			"text": "Explain the concept of connection pooling in database management and why it's important for Node.js applications. Provide an example of how you would implement it.",
+			"content": [],
+			"type": "TEXT",
+			"category": "Database Optimization",
+			"difficulty": "MEDIUM",
+			"estimatedDuration": 240,
+			"points": 30,
+			"order": 5,
+			"options": [],
+			"correctOption": null,
+			"constraints": {
+				"maxLength": 800,
+				"minLength": 150
+			},
+			"hints": [
+				"Consider the overhead of creating new database connections",
+				"Think about resource management and application performance"
+			],
+			"tags": [
+				"Database",
+				"Connection Pooling",
+				"Performance",
+				"Node.js"
+			],
+			"idealAnswer": "Connection pooling maintains a cache of database connections that can be reused across multiple requests, reducing the overhead of establishing new connections. In Node.js, this is crucial for performance as creating new connections is expensive. Libraries like 'pg' for PostgreSQL or 'mysql2' for MySQL provide built-in pooling. Example: const pool = new Pool({max: 20, idleTimeoutMillis: 30000}) allows reusing connections efficiently.",
+			"scoringCriteria": [
+				"Explains connection pooling concept clearly",
+				"Identifies performance benefits and resource efficiency",
+				"Mentions relevance to Node.js applications",
+				"Provides practical implementation example or library reference",
+				"Discusses configuration considerations"
+			]
+		},
+		{
+			"text": "What is your preferred approach for handling errors in Node.js applications?",
+			"content": [],
+			"type": "DROPDOWN",
+			"category": "Node.js",
+			"difficulty": "EASY",
+			"estimatedDuration": 60,
+			"points": 10,
+			"order": 6,
+			"options": [
+				"Try-catch blocks with async/await",
+				"Promise .catch() methods",
+				"Error-first callbacks",
+				"Global error handlers only",
+				"No specific error handling"
+			],
+			"correctOption": 0,
+			"constraints": {
+				"maxLength": 0,
+				"minLength": 0
+			},
+			"hints": ["Consider modern JavaScript practices and readability"],
+			"tags": ["Node.js", "Error Handling", "Best Practices"],
+			"idealAnswer": "Try-catch blocks with async/await provide the most readable and maintainable error handling approach in modern Node.js applications.",
+			"scoringCriteria": [
+				"Selects try-catch with async/await as the preferred modern approach"
+			]
+		},
+		{
+			"text": "Which AWS service would you primarily use for implementing a serverless API?",
+			"content": [],
+			"type": "DROPDOWN",
+			"category": "AWS",
+			"difficulty": "EASY",
+			"estimatedDuration": 45,
+			"points": 10,
+			"order": 7,
+			"options": [
+				"Amazon EC2",
+				"AWS Lambda",
+				"Amazon ECS",
+				"AWS Batch",
+				"Amazon Lightsail"
+			],
+			"correctOption": 1,
+			"constraints": {
+				"maxLength": 0,
+				"minLength": 0
+			},
+			"hints": [
+				"Think about services that don't require server management"
+			],
+			"tags": ["AWS", "Serverless", "API"],
+			"idealAnswer": "AWS Lambda is the primary service for building serverless APIs as it executes code without provisioning or managing servers.",
+			"scoringCriteria": [
+				"Correctly identifies AWS Lambda as the serverless compute service"
+			]
+		},
+		{
+			"text": "Rate your experience level with Docker containerization (1 = Beginner, 5 = Expert):",
+			"content": [],
+			"type": "RATING",
+			"category": "DevOps",
+			"difficulty": "EASY",
+			"estimatedDuration": 30,
+			"points": 5,
+			"order": 8,
+			"options": [
+				"1 - Beginner",
+				"2 - Novice",
+				"3 - Intermediate",
+				"4 - Advanced",
+				"5 - Expert"
+			],
+			"correctOption": null,
+			"constraints": {
+				"maxLength": 0,
+				"minLength": 0,
+				"minRating": 1,
+				"maxRating": 5
+			},
+			"hints": [],
+			"tags": ["Docker", "Containerization", "Self-Assessment"],
+			"idealAnswer": "Self-assessment rating based on candidate's actual experience with Docker.",
+			"scoringCriteria": [
+				"Honest self-assessment appropriate to actual experience level"
+			]
+		},
+		{
+			"text": "How would you rate your confidence in designing scalable microservices architectures (1 = Not confident, 5 = Very confident)?",
+			"content": [],
+			"type": "RATING",
+			"category": "Microservices",
+			"difficulty": "EASY",
+			"estimatedDuration": 30,
+			"points": 5,
+			"order": 9,
+			"options": [
+				"1 - Not confident",
+				"2 - Slightly confident",
+				"3 - Moderately confident",
+				"4 - Confident",
+				"5 - Very confident"
+			],
+			"correctOption": null,
+			"constraints": {
+				"maxLength": 0,
+				"minLength": 0,
+				"minRating": 1,
+				"maxRating": 5
+			},
+			"hints": [],
+			"tags": ["Microservices", "Architecture", "Self-Assessment"],
+			"idealAnswer": "Self-assessment rating reflecting candidate's confidence level in microservices design.",
+			"scoringCriteria": [
+				"Realistic self-assessment based on experience and knowledge"
+			]
+		},
+		{
+			"text": "Implement a Node.js function that connects to a MongoDB database and retrieves all users where the age is greater than 25. Use async/await and proper error handling.",
 			"content": [
 				{
 					"type": "paragraph",
 					"data": {
-						"text": "Use the built-in `fs` module for file operations. Ensure proper error handling, especially for the 'file not found' scenario."
+						"text": "Create a function called `getUsersAbove25` that connects to MongoDB using the native MongoDB driver or Mongoose, and returns users matching the criteria."
 					},
 					"order": 0
 				},
 				{
 					"type": "code",
 					"data": {
-						"code": "const fs = require('fs');\nconst fileName = 'data.txt';\n\n// Your code here",
+						"code": "const { MongoClient } = require('mongodb');\n\n// Database connection string\nconst connectionString = 'mongodb://localhost:27017/userdb';\n\nasync function getUsersAbove25() {\n  // Your implementation here\n}\n\n// Usage example\ngetUsersAbove25().then(users => console.log(users)).catch(err => console.error(err));",
 						"language": "javascript"
 					},
 					"order": 1
 				}
 			],
 			"type": "CODING",
-			"category": "Nodejs",
+			"category": "Database",
 			"difficulty": "MEDIUM",
-			"estimatedDuration": 600,
-			"points": 60,
-			"order": 3,
+			"estimatedDuration": 420,
+			"points": 40,
+			"order": 10,
 			"options": [],
 			"correctOption": null,
 			"constraints": {
-				"maxLength": 2500,
-				"minLength": 70,
-				"timeLimit": 720
+				"maxLength": 1500,
+				"minLength": 100,
+				"timeLimit": 600
 			},
 			"hints": [
-				"Look into `fs.readFile` or `fs.promises.readFile` for asynchronous file reading.",
-				"Remember to handle the error object in the callback or catch block for robust error handling."
+				"Use MongoClient.connect() to establish connection",
+				"Remember to close the database connection",
+				"Use find() method with appropriate query filter"
 			],
-			"tags": [
-				"Node.js",
-				"File System",
-				"Asynchronous",
-				"Error Handling"
-			],
-			"idealAnswer": "A Node.js script using `fs.readFile` with a callback or `fs.promises.readFile` with `async/await` to read a file, including error handling for file not found.",
+			"tags": ["Node.js", "MongoDB", "Database", "Async/Await"],
+			"idealAnswer": "A function that connects to MongoDB, queries the users collection with {age: {$gt: 25}}, handles errors properly, and closes the connection. Should use try-catch blocks with async/await.",
 			"scoringCriteria": [
-				"Correctly uses `fs.readFile` (or promise equivalent).",
-				"Prints file content to console on success.",
-				"Handles file not found error gracefully.",
-				"Code is asynchronous and robust."
+				"Correctly establishes MongoDB connection",
+				"Uses proper query filter {age: {$gt: 25}}",
+				"Implements async/await pattern correctly",
+				"Includes proper error handling with try-catch",
+				"Closes database connection appropriately",
+				"Returns the query results"
 			]
 		},
 		{
-			"text": "Explain the concept of Server-Side Rendering (SSR) in Next.js and describe a scenario where you would prefer SSR over Client-Side Rendering (CSR).",
-			"content": [],
-			"type": "TEXT",
-			"category": "NextJS",
-			"difficulty": "HARD",
-			"estimatedDuration": 240,
-			"points": 30,
-			"order": 4,
+			"text": "Create a simple Express.js middleware function that logs the request method, URL, and timestamp for each incoming request. The middleware should also add a unique request ID to each request.",
+			"content": [
+				{
+					"type": "paragraph",
+					"data": {
+						"text": "Implement a logging middleware that can be used with `app.use()`. The middleware should generate a unique ID for each request and log essential information."
+					},
+					"order": 0
+				},
+				{
+					"type": "code",
+					"data": {
+						"code": "const express = require('express');\nconst app = express();\n\n// Implement your middleware function here\nfunction loggingMiddleware(req, res, next) {\n  // Your implementation here\n}\n\n// Use the middleware\napp.use(loggingMiddleware);\n\n// Example route\napp.get('/', (req, res) => {\n  res.send(`Hello! Request ID: ${req.requestId}`);\n});\n\napp.listen(3000, () => console.log('Server running on port 3000'));",
+						"language": "javascript"
+					},
+					"order": 1
+				}
+			],
+			"type": "CODING",
+			"category": "Node.js",
+			"difficulty": "EASY",
+			"estimatedDuration": 300,
+			"points": 25,
+			"order": 11,
 			"options": [],
 			"correctOption": null,
 			"constraints": {
-				"maxLength": 800,
-				"minLength": 100
+				"maxLength": 1000,
+				"minLength": 80,
+				"timeLimit": 450
 			},
 			"hints": [
-				"Consider the benefits for SEO and initial page load performance.",
-				"Think about data fetching strategies and user experience for different types of applications."
+				"Use crypto.randomUUID() or Math.random() for generating unique IDs",
+				"Don't forget to call next() to pass control to the next middleware",
+				"Consider using new Date().toISOString() for timestamps"
 			],
-			"tags": ["Next.js", "SSR", "CSR", "Rendering"],
-			"idealAnswer": "SSR in Next.js means pages are rendered on the server before being sent to the client, resulting in a fully formed HTML page. This improves initial load time and SEO because search engine crawlers can easily index the content. A scenario where SSR is preferred over CSR is for public-facing content-heavy websites like e-commerce stores or news blogs, where SEO is crucial and users need to see content quickly without waiting for client-side JavaScript to load and fetch data.",
+			"tags": ["Express.js", "Middleware", "Logging", "Node.js"],
+			"idealAnswer": "A middleware function that generates a unique request ID, attaches it to req.requestId, logs the method, URL, timestamp, and request ID, then calls next() to continue the request chain.",
 			"scoringCriteria": [
-				"Provides a clear and accurate definition of SSR.",
-				"Explains key advantages of SSR (e.g., SEO, initial load performance).",
-				"Presents a relevant and well-justified scenario for choosing SSR over CSR."
+				"Generates unique request ID (using crypto.randomUUID() or similar)",
+				"Attaches request ID to req object",
+				"Logs request method, URL, and timestamp",
+				"Calls next() to continue middleware chain",
+				"Uses proper console.log or logging format",
+				"Code is clean and functional"
 			]
 		}
 	]

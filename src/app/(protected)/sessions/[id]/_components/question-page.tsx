@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { useSession } from "@/components/providers/session-form-provider";
 import SessionOverview from "@/components/molecules/session-form-container/session-overview";
 import InterviewComplete from "@/components/atoms/session-overview/session-complete";
+import QuestionDisplay from "@/components/molecules/question-container/question-display";
 
 type InterviewState = "overview" | "questions" | "complete";
 
@@ -28,8 +29,7 @@ const InterviewPage: React.FC = () => {
 			return <SessionOverview onStartInterview={handleStartInterview} />;
 		case "questions":
 			return (
-				// <QuestionDisplay onFinishInterview={handleFinishInterview} />
-				<>Incoming</>
+				<QuestionDisplay onFinishInterview={handleFinishInterview} />
 			);
 		case "complete":
 			return <InterviewComplete onRestart={handleRestartInterview} />;

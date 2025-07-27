@@ -23,7 +23,7 @@ const MetricCard: React.FC<MetricCardProps> = ({
 }) => {
 	return (
 		<Card
-			className={`group hover:shadow-lg transition-all duration-300 border-0 shadow-md`}
+			className={`group transition-all duration-300 border`}
 		>
 			<CardContent>
 				<div className="flex items-center justify-between">

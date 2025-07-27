@@ -11,7 +11,7 @@ const SessionOverviewSkeleton = () => {
 				<div className="relative overflow-hidden">
 					<div className="relative text-center space-y-6 px-8">
 						{/* Professional badge skeleton */}
-						<div className="inline-flex items-center space-x-2 backdrop-blur-sm px-4 py-2 rounded-full shadow-sm">
+						<div className="inline-flex items-center space-x-2 backdrop-blur-sm px-4 py-2 rounded-full">
 							<Skeleton className="h-4 w-4 rounded-full" />
 							<Skeleton className="h-4 w-48" />
 						</div>
@@ -37,7 +37,7 @@ const SessionOverviewSkeleton = () => {
 				{/* Key Metrics Skeleton */}
 				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
 					{[1, 2, 3, 4].map((i) => (
-						<Card key={i} className="border-0 shadow-md">
+						<Card key={i}>
 							<CardContent className="p-6">
 								<div className="flex items-center justify-between">
 									<div className="space-y-2">
@@ -56,7 +56,7 @@ const SessionOverviewSkeleton = () => {
 					{/* Session Configuration Skeleton */}
 					<div className="lg:col-span-2 space-y-6">
 						{/* Configuration Card */}
-						<Card className="border-0 shadow-lg">
+						<Card>
 							<CardHeader className="">
 								<div className="flex items-center">
 									<Skeleton className="h-8 w-8 rounded-lg mr-3" />
@@ -71,7 +71,7 @@ const SessionOverviewSkeleton = () => {
 										{[1, 2, 3, 4].map((i) => (
 											<Card
 												key={i}
-												className=""
+												className="dark:border border-0"
 											>
 												<CardContent className="p-4">
 													<div className="flex items-center justify-between">
@@ -92,7 +92,7 @@ const SessionOverviewSkeleton = () => {
 								{/* Question Types Section */}
 								<div className="space-y-4">
 									<Skeleton className="h-4 w-40" />
-									<Card className="border-0 shadow-sm">
+									<Card className="dark:border border-0">
 										<CardHeader className="pb-3">
 											<div className="flex items-center">
 												<Skeleton className="h-8 w-8 rounded-lg mr-3" />
@@ -117,7 +117,7 @@ const SessionOverviewSkeleton = () => {
 								{/* Focus Areas Section */}
 								<div className="space-y-4">
 									<Skeleton className="h-4 w-36" />
-									<Card className="border-0 shadow-sm">
+									<Card className="dark:border border-0">
 										<CardHeader className="pb-3">
 											<div className="flex items-center">
 												<Skeleton className="h-8 w-8 rounded-lg mr-3" />
@@ -140,7 +140,7 @@ const SessionOverviewSkeleton = () => {
 						</Card>
 
 						{/* Question Distribution Skeleton */}
-						<Card className="border-0 shadow-lg">
+						<Card>
 							<CardHeader>
 								<div className="flex items-center">
 									<Skeleton className="h-6 w-6 mr-3" />
@@ -175,7 +175,7 @@ const SessionOverviewSkeleton = () => {
 					{/* Sidebar Skeleton */}
 					<div className="space-y-6">
 						{/* Creator Info Skeleton */}
-						<Card className="border-0 shadow-lg">
+						<Card>
 							<CardHeader>
 								<div className="flex items-center">
 									<Skeleton className="h-5 w-5 mr-2" />
@@ -207,7 +207,7 @@ const SessionOverviewSkeleton = () => {
 						</Card>
 
 						{/* Ready Status Skeleton */}
-						<Card className="border-0 shadow-lg">
+						<Card>
 							<CardHeader>
 								<div className="flex items-center">
 									<Skeleton className="h-5 w-5 mr-2" />

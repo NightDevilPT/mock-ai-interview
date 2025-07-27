@@ -11,7 +11,7 @@ const ReadyStatus: React.FC = () => {
 	];
 
 	return (
-		<Card className="border-0 shadow-lg gap-0">
+		<Card className="border gap-0">
 			<CardHeader className="pb-2">
 				<CardTitle className="p-0 flex items-center">
 					<CheckCircle2 className="h-5 w-5 mr-2" />

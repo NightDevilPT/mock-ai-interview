@@ -23,7 +23,7 @@ const SessionHero: React.FC<SessionHeroProps> = ({
 				</h1>
 
 				{session.description && (
-					<p className="text-slate-600  mx-auto leading-relaxed">
+					<p className="text-muted-foreground  mx-auto leading-relaxed">
 						{session.description}
 					</p>
 				)}

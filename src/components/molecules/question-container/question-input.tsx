@@ -6,6 +6,14 @@ import React from "react";
 import { HelpCircle } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 
+// Import all question components
+import { TextQuestionComponent } from "@/components/atoms/questions/question-types/text-question";
+import { RatingQuestionComponent } from "@/components/atoms/questions/question-types/rating-question";
+import { CodingQuestionComponent } from "@/components/atoms/questions/question-types/coding-question";
+import { CheckboxQuestionComponent } from "@/components/atoms/questions/question-types/checkbox-question";
+import { DropdownQuestionComponent } from "@/components/atoms/questions/question-types/dropdown-question";
+import { MultipleChoiceQuestionComponent } from "@/components/atoms/questions/question-types/multiple-choice-question";
+
 interface QuestionInputProps {
 	type: QuestionTypeEnum;
 	value?: QuestionAnswerType;
@@ -20,71 +28,23 @@ export const QuestionInput: React.FC<QuestionInputProps> = ({
 	const renderInput = () => {
 		switch (type) {
 			case QuestionTypeEnum.MULTIPLE_CHOICE:
-				return (
-					<div className="space-y-4">
-						<div className="text-sm font-medium text-foreground mb-4">
-							Select the best answer:
-						</div>
-						<div className="text-center text-muted-foreground py-12">
-							Multiple choice component implementation here
-						</div>
-					</div>
-				);
+				return <MultipleChoiceQuestionComponent />;
+
 			case QuestionTypeEnum.CHECKBOX:
-				return (
-					<div className="space-y-4">
-						<div className="text-sm font-medium text-foreground mb-4">
-							Select all that apply:
-						</div>
-						<div className="text-center text-muted-foreground py-12">
-							Checkbox component implementation here
-						</div>
-					</div>
-				);
+				return <CheckboxQuestionComponent />;
+
 			case QuestionTypeEnum.TEXT:
-				return (
-					<div className="space-y-4">
-						<div className="text-sm font-medium text-foreground mb-4">
-							Provide your answer below:
-						</div>
-						<div className="text-center text-muted-foreground py-12">
-							Text input component implementation here
-						</div>
-					</div>
-				);
+				return <TextQuestionComponent />;
+
 			case QuestionTypeEnum.CODING:
-				return (
-					<div className="space-y-4">
-						<div className="text-sm font-medium text-foreground mb-4">
-							Write your code solution:
-						</div>
-						<div className="text-center text-muted-foreground py-12">
-							Code editor component implementation here
-						</div>
-					</div>
-				);
+				return <CodingQuestionComponent />;
+
 			case QuestionTypeEnum.DROPDOWN:
-				return (
-					<div className="space-y-4">
-						<div className="text-sm font-medium text-foreground mb-4">
-							Select from dropdown:
-						</div>
-						<div className="text-center text-muted-foreground py-12">
-							Dropdown component implementation here
-						</div>
-					</div>
-				);
+				return <DropdownQuestionComponent />;
+
 			case QuestionTypeEnum.RATING:
-				return (
-					<div className="space-y-4">
-						<div className="text-sm font-medium text-foreground mb-4">
-							Rate on a scale:
-						</div>
-						<div className="text-center text-muted-foreground py-12">
-							Rating component implementation here
-						</div>
-					</div>
-				);
+				return <RatingQuestionComponent />;
+
 			default:
 				return (
 					<Alert className="border-amber-300 bg-amber-100 dark:bg-amber-900/20 dark:border-amber-800">
@@ -98,7 +58,7 @@ export const QuestionInput: React.FC<QuestionInputProps> = ({
 	};
 
 	return (
-		<div className="bg-muted/50 rounded-lg p-6 min-h-[400px]">
+		<div className="rounded-lg min-h-[400px]">
 			{renderInput()}
 		</div>
 	);

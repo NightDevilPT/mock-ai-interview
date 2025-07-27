@@ -45,7 +45,7 @@ const QuestionDistribution: React.FC<QuestionDistributionProps> = ({
 									className="text-center space-y-4"
 								>
 									<div
-										className={`p-6 rounded-2xl bg-gradient-to-br ${config.bgGradient} border border-white/50`}
+										className={`p-6 rounded-2xl bg-gradient-to-br ${config.bgGradient} border-white/50`}
 									>
 										<div className="text-3xl font-bold text-slate-800 mb-2">
 											{count}

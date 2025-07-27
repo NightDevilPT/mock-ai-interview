@@ -17,7 +17,7 @@ const CreatorInfo: React.FC<CreatorInfoProps> = ({
 	updatedAt,
 }) => {
 	return (
-		<Card className="border-0 shadow-lg">
+		<Card>
 			<CardHeader>
 				<CardTitle className="flex items-center text-lg">
 					<User className="h-5 w-5 mr-2 text-muted-foreground" />

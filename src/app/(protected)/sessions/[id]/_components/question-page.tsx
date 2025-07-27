@@ -9,7 +9,7 @@ type InterviewState = "overview" | "questions" | "complete";
 
 const InterviewPage: React.FC = () => {
 	const [currentState, setCurrentState] =
-		useState<InterviewState>("complete");
+		useState<InterviewState>("overview");
 
 	const handleStartInterview = () => {
 		setCurrentState("questions");

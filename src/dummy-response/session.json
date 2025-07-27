@@ -27,8 +27,17 @@
 	},
 	"questions": [
 		{
+			"id": "q1-http-status-codes",
 			"text": "Which HTTP status code indicates that a resource was successfully created?",
-			"content": [],
+			"content": [
+				{
+					"type": "paragraph",
+					"data": {
+						"text": "HTTP status codes are three-digit numbers that indicate the result of an HTTP request. Understanding the correct status codes is crucial for building RESTful APIs."
+					},
+					"order": 0
+				}
+			],
 			"type": "MULTIPLE_CHOICE",
 			"category": "Backend Development",
 			"difficulty": "EASY",
@@ -41,21 +50,43 @@
 				"202 Accepted",
 				"204 No Content"
 			],
-			"correctOption": 1,
 			"constraints": {
 				"maxLength": 0,
-				"minLength": 0
+				"minLength": 0,
+				"timeLimit": 120
 			},
-			"hints": [],
+			"hints": [
+				"Think about what happens when a new resource is successfully added to the server"
+			],
 			"tags": ["HTTP", "Status Codes", "REST API"],
-			"idealAnswer": "201 Created indicates that a request has been fulfilled and has resulted in one or more new resources being created.",
-			"scoringCriteria": [
-				"Correctly identifies 201 Created as the status code for successful resource creation."
-			]
+			"createdAt": "2024-01-15T10:00:00Z",
+			"updatedAt": "2024-01-15T10:00:00Z"
 		},
 		{
+			"id": "q2-nodejs-async-pattern",
 			"text": "Which design pattern is commonly used in Node.js to handle asynchronous operations without blocking the main thread?",
-			"content": [],
+			"content": [
+				{
+					"type": "paragraph",
+					"data": {
+						"text": "Node.js is built around handling asynchronous operations efficiently. Understanding its core architecture is essential for building performant applications."
+					},
+					"order": 0
+				},
+				{
+					"type": "list",
+					"data": {
+						"items": [
+							"Non-blocking I/O operations",
+							"Single-threaded event handling",
+							"Callback queue management",
+							"Efficient resource utilization"
+						],
+						"style": "unordered"
+					},
+					"order": 1
+				}
+			],
 			"type": "MULTIPLE_CHOICE",
 			"category": "Node.js",
 			"difficulty": "MEDIUM",
@@ -68,23 +99,72 @@
 				"Event Loop Pattern",
 				"Factory Pattern"
 			],
-			"correctOption": 2,
 			"constraints": {
 				"maxLength": 0,
-				"minLength": 0
+				"minLength": 0,
+				"timeLimit": 180
 			},
 			"hints": [
-				"Think about Node.js's core architecture for handling I/O operations"
+				"Think about Node.js's core architecture for handling I/O operations",
+				"Consider how Node.js manages concurrent operations without threads"
 			],
 			"tags": ["Node.js", "Design Patterns", "Asynchronous Programming"],
-			"idealAnswer": "The Event Loop Pattern is fundamental to Node.js, allowing it to handle asynchronous operations efficiently without blocking the main thread.",
-			"scoringCriteria": [
-				"Correctly identifies the Event Loop Pattern as Node.js's core asynchronous handling mechanism."
-			]
+			"createdAt": "2024-01-15T10:05:00Z",
+			"updatedAt": "2024-01-15T10:05:00Z"
 		},
 		{
+			"id": "q3-aws-microservices",
 			"text": "Select all the AWS services that are commonly used for building microservices architectures:",
-			"content": [],
+			"content": [
+				{
+					"type": "paragraph",
+					"data": {
+						"text": "Microservices architecture requires various supporting services for deployment, communication, and orchestration. AWS provides numerous services that facilitate microservices implementation."
+					},
+					"order": 0
+				},
+				{
+					"type": "table",
+					"data": {
+						"headers": [
+							"Service Category",
+							"AWS Services",
+							"Purpose"
+						],
+						"rows": [
+							{
+								"cells": [
+									"Container Management",
+									"ECS, EKS",
+									"Orchestration"
+								]
+							},
+							{
+								"cells": [
+									"Serverless",
+									"Lambda",
+									"Function execution"
+								]
+							},
+							{
+								"cells": [
+									"API Management",
+									"API Gateway",
+									"Request routing"
+								]
+							},
+							{
+								"cells": [
+									"Workflow",
+									"Step Functions",
+									"Service coordination"
+								]
+							}
+						]
+					},
+					"order": 1
+				}
+			],
 			"type": "CHECKBOX",
 			"category": "AWS",
 			"difficulty": "MEDIUM",
@@ -99,27 +179,39 @@
 				"Amazon S3",
 				"AWS Step Functions"
 			],
-			"correctOptions": [0, 1, 3, 5],
 			"constraints": {
 				"maxLength": 0,
-				"minLength": 0
+				"minLength": 0,
+				"timeLimit": 240
 			},
 			"hints": [
-				"Consider services that help with containerization, serverless computing, API management, and workflow orchestration"
+				"Consider services that help with containerization, serverless computing, API management, and workflow orchestration",
+				"Think about which services are specific to compute and orchestration rather than just storage"
 			],
 			"tags": ["AWS", "Microservices", "Cloud Architecture"],
-			"idealAnswer": "Amazon ECS (containerization), AWS Lambda (serverless functions), Amazon API Gateway (API management), and AWS Step Functions (workflow orchestration) are key services for microservices.",
-			"scoringCriteria": [
-				"Selects Amazon ECS for container orchestration",
-				"Selects AWS Lambda for serverless microservices",
-				"Selects Amazon API Gateway for API management",
-				"Selects AWS Step Functions for workflow orchestration",
-				"Does not select storage-only services like RDS or S3"
-			]
+			"createdAt": "2024-01-15T10:10:00Z",
+			"updatedAt": "2024-01-15T10:10:00Z"
 		},
 		{
+			"id": "q4-database-optimization",
 			"text": "Which of the following database optimization techniques should be applied for improving query performance? (Select all that apply)",
-			"content": [],
+			"content": [
+				{
+					"type": "paragraph",
+					"data": {
+						"text": "Database performance optimization is crucial for scalable applications. Multiple techniques can be employed to improve query execution and overall database efficiency."
+					},
+					"order": 0
+				},
+				{
+					"type": "code",
+					"data": {
+						"code": "-- Example of good vs bad queries\n\n-- BAD: Using SELECT *\nSELECT * FROM users WHERE active = 1;\n\n-- GOOD: Selecting specific columns with index\nSELECT id, name, email FROM users \nWHERE active = 1 \nAND created_at > '2023-01-01';",
+						"language": "sql"
+					},
+					"order": 1
+				}
+			],
 			"type": "CHECKBOX",
 			"category": "Database Optimization",
 			"difficulty": "MEDIUM",
@@ -134,28 +226,55 @@
 				"Using SELECT *",
 				"Partitioning large tables"
 			],
-			"correctOptions": [0, 1, 2, 3, 5],
 			"constraints": {
 				"maxLength": 0,
-				"minLength": 0
+				"minLength": 0,
+				"timeLimit": 300
 			},
 			"hints": [
-				"Think about techniques that reduce query execution time and improve resource utilization"
+				"Think about techniques that reduce query execution time and improve resource utilization",
+				"Consider what makes queries slower vs faster"
 			],
 			"tags": ["Database", "Performance", "Optimization"],
-			"idealAnswer": "Proper indexing, caching, normalization, connection pooling, and table partitioning all contribute to better database performance. Using SELECT * should be avoided.",
-			"scoringCriteria": [
-				"Selects indexing as a key optimization technique",
-				"Selects caching for improved response times",
-				"Selects normalization for data integrity and efficiency",
-				"Selects connection pooling for resource management",
-				"Selects partitioning for large table management",
-				"Does not select SELECT * as it's an anti-pattern"
-			]
+			"createdAt": "2024-01-15T10:15:00Z",
+			"updatedAt": "2024-01-15T10:15:00Z"
 		},
 		{
+			"id": "q5-microservices-comparison",
 			"text": "Describe the advantages and disadvantages of using microservices architecture compared to monolithic architecture. Include considerations for team scalability, deployment complexity, and system reliability.",
-			"content": [],
+			"content": [
+				{
+					"type": "paragraph",
+					"data": {
+						"text": "The choice between microservices and monolithic architecture is a fundamental decision that affects development, deployment, and maintenance of software systems."
+					},
+					"order": 0
+				},
+				{
+					"type": "list",
+					"data": {
+						"items": [
+							"Team autonomy and development speed",
+							"Technology stack flexibility",
+							"Service independence and fault isolation",
+							"Deployment and operational complexity",
+							"Inter-service communication challenges",
+							"Data consistency and transaction management"
+						],
+						"style": "unordered"
+					},
+					"order": 1
+				},
+				{
+					"type": "media",
+					"data": {
+						"url": "https://example.com/microservices-vs-monolith.png",
+						"caption": "Microservices vs Monolithic Architecture Comparison",
+						"altText": "Diagram comparing microservices and monolithic architectures"
+					},
+					"order": 2
+				}
+			],
 			"type": "TEXT",
 			"category": "Microservices",
 			"difficulty": "HARD",
@@ -163,28 +282,40 @@
 			"points": 35,
 			"order": 4,
 			"options": [],
-			"correctOption": null,
 			"constraints": {
 				"maxLength": 1000,
-				"minLength": 200
+				"minLength": 200,
+				"timeLimit": 600
 			},
 			"hints": [
 				"Consider both technical and organizational aspects",
-				"Think about how each architecture affects development teams and operations"
+				"Think about how each architecture affects development teams and operations",
+				"Address the specific areas mentioned: team scalability, deployment, and reliability"
 			],
 			"tags": ["Microservices", "Architecture", "System Design"],
-			"idealAnswer": "Microservices offer advantages like independent deployments, technology diversity, team autonomy, and fault isolation. However, they introduce complexity in service communication, distributed system challenges, and operational overhead. Monoliths are simpler to develop and deploy initially but can become bottlenecks as teams and features grow. The choice depends on team size, system complexity, and organizational maturity.",
-			"scoringCriteria": [
-				"Identifies key advantages of microservices (independence, scalability, team autonomy)",
-				"Recognizes disadvantages (complexity, distributed system challenges)",
-				"Compares with monolithic architecture appropriately",
-				"Addresses team scalability, deployment, and reliability considerations",
-				"Provides balanced perspective on when to use each approach"
-			]
+			"createdAt": "2024-01-15T10:20:00Z",
+			"updatedAt": "2024-01-15T10:20:00Z"
 		},
 		{
+			"id": "q6-connection-pooling",
 			"text": "Explain the concept of connection pooling in database management and why it's important for Node.js applications. Provide an example of how you would implement it.",
-			"content": [],
+			"content": [
+				{
+					"type": "paragraph",
+					"data": {
+						"text": "Database connections are expensive resources that need to be managed efficiently in Node.js applications to ensure optimal performance and resource utilization."
+					},
+					"order": 0
+				},
+				{
+					"type": "code",
+					"data": {
+						"code": "// Without connection pooling (inefficient)\nconst { Client } = require('pg');\n\nasync function queryUser(id) {\n  const client = new Client(); // New connection every time!\n  await client.connect();\n  const result = await client.query('SELECT * FROM users WHERE id = $1', [id]);\n  await client.end();\n  return result.rows[0];\n}",
+						"language": "javascript"
+					},
+					"order": 1
+				}
+			],
 			"type": "TEXT",
 			"category": "Database Optimization",
 			"difficulty": "MEDIUM",
@@ -192,14 +323,15 @@
 			"points": 30,
 			"order": 5,
 			"options": [],
-			"correctOption": null,
 			"constraints": {
 				"maxLength": 800,
-				"minLength": 150
+				"minLength": 150,
+				"timeLimit": 480
 			},
 			"hints": [
 				"Consider the overhead of creating new database connections",
-				"Think about resource management and application performance"
+				"Think about resource management and application performance",
+				"Include practical implementation details"
 			],
 			"tags": [
 				"Database",
@@ -207,18 +339,21 @@
 				"Performance",
 				"Node.js"
 			],
-			"idealAnswer": "Connection pooling maintains a cache of database connections that can be reused across multiple requests, reducing the overhead of establishing new connections. In Node.js, this is crucial for performance as creating new connections is expensive. Libraries like 'pg' for PostgreSQL or 'mysql2' for MySQL provide built-in pooling. Example: const pool = new Pool({max: 20, idleTimeoutMillis: 30000}) allows reusing connections efficiently.",
-			"scoringCriteria": [
-				"Explains connection pooling concept clearly",
-				"Identifies performance benefits and resource efficiency",
-				"Mentions relevance to Node.js applications",
-				"Provides practical implementation example or library reference",
-				"Discusses configuration considerations"
-			]
+			"createdAt": "2024-01-15T10:25:00Z",
+			"updatedAt": "2024-01-15T10:25:00Z"
 		},
 		{
+			"id": "q7-nodejs-error-handling",
 			"text": "What is your preferred approach for handling errors in Node.js applications?",
-			"content": [],
+			"content": [
+				{
+					"type": "paragraph",
+					"data": {
+						"text": "Error handling is crucial for building robust Node.js applications. Different approaches have evolved with JavaScript language features."
+					},
+					"order": 0
+				}
+			],
 			"type": "DROPDOWN",
 			"category": "Node.js",
 			"difficulty": "EASY",
@@ -232,21 +367,28 @@
 				"Global error handlers only",
 				"No specific error handling"
 			],
-			"correctOption": 0,
 			"constraints": {
 				"maxLength": 0,
-				"minLength": 0
+				"minLength": 0,
+				"timeLimit": 120
 			},
 			"hints": ["Consider modern JavaScript practices and readability"],
 			"tags": ["Node.js", "Error Handling", "Best Practices"],
-			"idealAnswer": "Try-catch blocks with async/await provide the most readable and maintainable error handling approach in modern Node.js applications.",
-			"scoringCriteria": [
-				"Selects try-catch with async/await as the preferred modern approach"
-			]
+			"createdAt": "2024-01-15T10:30:00Z",
+			"updatedAt": "2024-01-15T10:30:00Z"
 		},
 		{
+			"id": "q8-aws-serverless-api",
 			"text": "Which AWS service would you primarily use for implementing a serverless API?",
-			"content": [],
+			"content": [
+				{
+					"type": "paragraph",
+					"data": {
+						"text": "Serverless architecture eliminates the need to manage servers, allowing developers to focus on code while AWS handles the infrastructure automatically."
+					},
+					"order": 0
+				}
+			],
 			"type": "DROPDOWN",
 			"category": "AWS",
 			"difficulty": "EASY",
@@ -260,97 +402,115 @@
 				"AWS Batch",
 				"Amazon Lightsail"
 			],
-			"correctOption": 1,
 			"constraints": {
 				"maxLength": 0,
-				"minLength": 0
+				"minLength": 0,
+				"timeLimit": 90
 			},
 			"hints": [
 				"Think about services that don't require server management"
 			],
 			"tags": ["AWS", "Serverless", "API"],
-			"idealAnswer": "AWS Lambda is the primary service for building serverless APIs as it executes code without provisioning or managing servers.",
-			"scoringCriteria": [
-				"Correctly identifies AWS Lambda as the serverless compute service"
-			]
+			"createdAt": "2024-01-15T10:35:00Z",
+			"updatedAt": "2024-01-15T10:35:00Z"
 		},
 		{
+			"id": "q9-docker-experience",
 			"text": "Rate your experience level with Docker containerization (1 = Beginner, 5 = Expert):",
-			"content": [],
+			"content": [
+				{
+					"type": "paragraph",
+					"data": {
+						"text": "Docker containerization is essential for modern application deployment and development workflows. Please provide an honest assessment of your experience level."
+					},
+					"order": 0
+				}
+			],
 			"type": "RATING",
 			"category": "DevOps",
 			"difficulty": "EASY",
 			"estimatedDuration": 30,
 			"points": 5,
 			"order": 8,
-			"options": [
-				"1 - Beginner",
-				"2 - Novice",
-				"3 - Intermediate",
-				"4 - Advanced",
-				"5 - Expert"
-			],
-			"correctOption": null,
+			"options": [],
 			"constraints": {
 				"maxLength": 0,
 				"minLength": 0,
-				"minRating": 1,
-				"maxRating": 5
+				"timeLimit": 60
 			},
 			"hints": [],
 			"tags": ["Docker", "Containerization", "Self-Assessment"],
-			"idealAnswer": "Self-assessment rating based on candidate's actual experience with Docker.",
-			"scoringCriteria": [
-				"Honest self-assessment appropriate to actual experience level"
-			]
+			"createdAt": "2024-01-15T10:40:00Z",
+			"updatedAt": "2024-01-15T10:40:00Z"
 		},
 		{
+			"id": "q10-microservices-confidence",
 			"text": "How would you rate your confidence in designing scalable microservices architectures (1 = Not confident, 5 = Very confident)?",
-			"content": [],
+			"content": [
+				{
+					"type": "paragraph",
+					"data": {
+						"text": "Designing scalable microservices requires understanding of distributed systems, service communication, data management, and operational complexity."
+					},
+					"order": 0
+				}
+			],
 			"type": "RATING",
 			"category": "Microservices",
 			"difficulty": "EASY",
 			"estimatedDuration": 30,
 			"points": 5,
 			"order": 9,
-			"options": [
-				"1 - Not confident",
-				"2 - Slightly confident",
-				"3 - Moderately confident",
-				"4 - Confident",
-				"5 - Very confident"
-			],
-			"correctOption": null,
+			"options": [],
 			"constraints": {
 				"maxLength": 0,
 				"minLength": 0,
-				"minRating": 1,
-				"maxRating": 5
+				"timeLimit": 60
 			},
 			"hints": [],
 			"tags": ["Microservices", "Architecture", "Self-Assessment"],
-			"idealAnswer": "Self-assessment rating reflecting candidate's confidence level in microservices design.",
-			"scoringCriteria": [
-				"Realistic self-assessment based on experience and knowledge"
-			]
+			"createdAt": "2024-01-15T10:45:00Z",
+			"updatedAt": "2024-01-15T10:45:00Z"
 		},
 		{
+			"id": "q11-mongodb-query-coding",
 			"text": "Implement a Node.js function that connects to a MongoDB database and retrieves all users where the age is greater than 25. Use async/await and proper error handling.",
 			"content": [
 				{
 					"type": "paragraph",
 					"data": {
-						"text": "Create a function called `getUsersAbove25` that connects to MongoDB using the native MongoDB driver or Mongoose, and returns users matching the criteria."
+						"text": "Create a function called <code>getUsersAbove25</code> that connects to MongoDB using the native MongoDB driver, queries the database, and returns users matching the age criteria with proper error handling."
 					},
 					"order": 0
 				},
 				{
-					"type": "code",
+					"type": "list",
 					"data": {
-						"code": "const { MongoClient } = require('mongodb');\n\n// Database connection string\nconst connectionString = 'mongodb://localhost:27017/userdb';\n\nasync function getUsersAbove25() {\n  // Your implementation here\n}\n\n// Usage example\ngetUsersAbove25().then(users => console.log(users)).catch(err => console.error(err));",
-						"language": "javascript"
+						"items": [
+							"Use the MongoDB native driver (mongodb package)",
+							"Implement proper connection management",
+							"Use async/await for asynchronous operations",
+							"Include comprehensive error handling",
+							"Close database connections appropriately"
+						],
+						"style": "ordered"
 					},
 					"order": 1
+				},
+				{
+					"type": "code",
+					"data": {
+						"code": "const { MongoClient } = require('mongodb');\n\n// Database connection string\nconst connectionString = 'mongodb://localhost:27017/userdb';\n\nasync function getUsersAbove25() {\n  // Your implementation here\n  // 1. Connect to MongoDB\n  // 2. Access the users collection\n  // 3. Query for users with age > 25\n  // 4. Handle errors appropriately\n  // 5. Close the connection\n  // 6. Return the results\n}\n\n// Usage example\ngetUsersAbove25()\n  .then(users => console.log('Found users:', users))\n  .catch(err => console.error('Error:', err));",
+						"language": "javascript"
+					},
+					"order": 2
+				},
+				{
+					"type": "paragraph",
+					"data": {
+						"text": "<strong>Expected MongoDB collection structure:</strong> The users collection contains documents with fields like <code>name</code>, <code>age</code>, <code>email</code>, etc."
+					},
+					"order": 3
 				}
 			],
 			"type": "CODING",
@@ -360,7 +520,6 @@
 			"points": 40,
 			"order": 10,
 			"options": [],
-			"correctOption": null,
 			"constraints": {
 				"maxLength": 1500,
 				"minLength": 100,
@@ -369,36 +528,52 @@
 			"hints": [
 				"Use MongoClient.connect() to establish connection",
 				"Remember to close the database connection",
-				"Use find() method with appropriate query filter"
+				"Use find() method with appropriate query filter {age: {$gt: 25}}",
+				"Convert cursor to array using toArray()"
 			],
 			"tags": ["Node.js", "MongoDB", "Database", "Async/Await"],
-			"idealAnswer": "A function that connects to MongoDB, queries the users collection with {age: {$gt: 25}}, handles errors properly, and closes the connection. Should use try-catch blocks with async/await.",
-			"scoringCriteria": [
-				"Correctly establishes MongoDB connection",
-				"Uses proper query filter {age: {$gt: 25}}",
-				"Implements async/await pattern correctly",
-				"Includes proper error handling with try-catch",
-				"Closes database connection appropriately",
-				"Returns the query results"
-			]
+			"createdAt": "2024-01-15T10:50:00Z",
+			"updatedAt": "2024-01-15T10:50:00Z"
 		},
 		{
+			"id": "q12-express-middleware-coding",
 			"text": "Create a simple Express.js middleware function that logs the request method, URL, and timestamp for each incoming request. The middleware should also add a unique request ID to each request.",
 			"content": [
 				{
 					"type": "paragraph",
 					"data": {
-						"text": "Implement a logging middleware that can be used with `app.use()`. The middleware should generate a unique ID for each request and log essential information."
+						"text": "Implement a logging middleware function that can be used with <code>app.use()</code>. The middleware should generate a unique ID for each request and log essential request information."
 					},
 					"order": 0
 				},
 				{
-					"type": "code",
+					"type": "list",
 					"data": {
-						"code": "const express = require('express');\nconst app = express();\n\n// Implement your middleware function here\nfunction loggingMiddleware(req, res, next) {\n  // Your implementation here\n}\n\n// Use the middleware\napp.use(loggingMiddleware);\n\n// Example route\napp.get('/', (req, res) => {\n  res.send(`Hello! Request ID: ${req.requestId}`);\n});\n\napp.listen(3000, () => console.log('Server running on port 3000'));",
-						"language": "javascript"
+						"items": [
+							"Generate a unique request ID for each request",
+							"Attach the request ID to the req object",
+							"Log the HTTP method, URL, timestamp, and request ID",
+							"Call next() to pass control to the next middleware",
+							"Use proper date formatting for timestamps"
+						],
+						"style": "ordered"
 					},
 					"order": 1
+				},
+				{
+					"type": "code",
+					"data": {
+						"code": "const express = require('express');\nconst crypto = require('crypto');\nconst app = express();\n\n// Implement your middleware function here\nfunction loggingMiddleware(req, res, next) {\n  // TODO: Generate unique request ID\n  // TODO: Attach ID to req.requestId\n  // TODO: Log method, URL, timestamp, and ID\n  // TODO: Call next() to continue\n}\n\n// Use the middleware\napp.use(loggingMiddleware);\n\n// Example routes for testing\napp.get('/', (req, res) => {\n  res.send(`Hello! Request ID: ${req.requestId}`);\n});\n\napp.post('/users', (req, res) => {\n  res.json({ message: 'User created', requestId: req.requestId });\n});\n\napp.listen(3000, () => console.log('Server running on port 3000'));",
+						"language": "javascript"
+					},
+					"order": 2
+				},
+				{
+					"type": "paragraph",
+					"data": {
+						"text": "<strong>Expected output format:</strong> <code>[2024-01-15T10:30:45.123Z] GET / - ID: abc123def456</code>"
+					},
+					"order": 3
 				}
 			],
 			"type": "CODING",
@@ -408,7 +583,6 @@
 			"points": 25,
 			"order": 11,
 			"options": [],
-			"correctOption": null,
 			"constraints": {
 				"maxLength": 1000,
 				"minLength": 80,
@@ -417,18 +591,12 @@
 			"hints": [
 				"Use crypto.randomUUID() or Math.random() for generating unique IDs",
 				"Don't forget to call next() to pass control to the next middleware",
-				"Consider using new Date().toISOString() for timestamps"
+				"Consider using new Date().toISOString() for timestamps",
+				"Use console.log for logging with a clear format"
 			],
 			"tags": ["Express.js", "Middleware", "Logging", "Node.js"],
-			"idealAnswer": "A middleware function that generates a unique request ID, attaches it to req.requestId, logs the method, URL, timestamp, and request ID, then calls next() to continue the request chain.",
-			"scoringCriteria": [
-				"Generates unique request ID (using crypto.randomUUID() or similar)",
-				"Attaches request ID to req object",
-				"Logs request method, URL, and timestamp",
-				"Calls next() to continue middleware chain",
-				"Uses proper console.log or logging format",
-				"Code is clean and functional"
-			]
+			"createdAt": "2024-01-15T10:55:00Z",
+			"updatedAt": "2024-01-15T10:55:00Z"
 		}
 	]
 }

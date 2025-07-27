@@ -7,6 +7,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { useSession } from "@/components/providers/session-form-provider";
 import { Loader2, Star, Send, CheckCircle2, AlertTriangle } from "lucide-react";
+import { ContentRenderer } from "@/components/molecules/content-render-container";
 
 export const RatingQuestionComponent: React.FC = () => {
 	const {
@@ -127,7 +128,7 @@ export const RatingQuestionComponent: React.FC = () => {
 				<Alert className="border-green-300 bg-green-50 dark:bg-green-900/20 dark:border-green-800">
 					<CheckCircle2 className="h-4 w-4 text-green-600 dark:text-green-400" />
 					<AlertDescription className="text-green-700 dark:text-green-300 font-medium">
-						✅ Rating submitted successfully!
+						Rating submitted successfully!
 					</AlertDescription>
 				</Alert>
 			)}
@@ -137,13 +138,20 @@ export const RatingQuestionComponent: React.FC = () => {
 				<Alert className="border-red-300 bg-red-50 dark:bg-red-900/20 dark:border-red-800">
 					<AlertTriangle className="h-4 w-4 text-red-600 dark:text-red-400" />
 					<AlertDescription className="text-red-700 dark:text-red-300 font-medium">
-						❌ {submitError}
+						{submitError}
 					</AlertDescription>
 				</Alert>
 			)}
 
+			{/* Question Content */}
+			{currentQuestion.content && (
+				<ContentRenderer
+					content={currentQuestion.content}
+				/>
+			)}
+
 			{/* Rating Stars */}
-			<Card className="p-8">
+			<Card className="border-0 p-0 shadow-none">
 				<div className="text-center space-y-6">
 					<div className="text-lg font-medium text-foreground">
 						Rate from 1 to {maxRating}

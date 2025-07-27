@@ -20,6 +20,7 @@ import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import React, { useCallback, useEffect, useState } from "react";
 import { useSession } from "@/components/providers/session-form-provider";
+import { ContentRenderer } from "@/components/molecules/content-render-container";
 
 export const DropdownQuestionComponent: React.FC = () => {
 	const {
@@ -147,13 +148,18 @@ export const DropdownQuestionComponent: React.FC = () => {
 				<Alert className="border-red-300 bg-red-50 dark:bg-red-900/20 dark:border-red-800">
 					<AlertTriangle className="h-4 w-4 text-red-600 dark:text-red-400" />
 					<AlertDescription className="text-red-700 dark:text-red-300 font-medium">
-						❌ {submitError}
+						{submitError}
 					</AlertDescription>
 				</Alert>
 			)}
 
+			{/* Question Content */}
+			{currentQuestion.content && (
+				<ContentRenderer content={currentQuestion.content} />
+			)}
+
 			{/* Dropdown */}
-			<Card className="p-6">
+			<Card className="border-0 p-0 dark:shadow-none">
 				<div className="space-y-4">
 					<div className="text-sm font-medium text-foreground mb-4">
 						Select your answer from the dropdown:

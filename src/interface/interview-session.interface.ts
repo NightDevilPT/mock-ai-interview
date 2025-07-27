@@ -41,6 +41,61 @@ export enum CareerLevelEnum {
 	LEAD = "LEAD",
 }
 
+export type ContentBlock =
+  | ParagraphBlock
+  | ListBlock
+  | CodeBlock
+  | MediaBlock
+  | TableBlock;
+
+export interface ParagraphBlock {
+  type: 'paragraph';
+  data: {
+    text: string;
+  };
+  order: number;
+}
+
+export interface ListBlock {
+  type: 'list';
+  data: {
+    items: string[];
+    style: 'ordered' | 'unordered';
+  };
+  order: number;
+}
+
+export interface CodeBlock {
+  type: 'code';
+  data: {
+    code: string;
+    language: string;
+  };
+  order: number;
+}
+
+export interface MediaBlock {
+  type: 'media';
+  data: {
+    url: string;
+    caption: string;
+    altText: string;
+  };
+  order: number;
+}
+
+export interface TableBlock {
+  type: 'table';
+  data: {
+    headers: string[];
+    rows: {
+      cells: string[];
+    }[];
+  };
+  order: number;
+}
+
+
 // Convert enums to arrays for Zod
 const experienceLevels = Object.values(ExperienceLevelEnum);
 const questionTypes = Object.values(QuestionTypeEnum);
@@ -135,6 +190,7 @@ export function validateInterviewPrompt(input: unknown): {
 export interface Question {
 	id: string;
 	text: string;
+	content : ContentBlock[]; // Array of content blocks
 	type: QuestionTypeEnum;
 	difficulty: QuestionDifficulty;
 	points: number;
@@ -149,7 +205,6 @@ export interface Question {
 	}; // JSON type
 	hints?: string[];
 	tags?: string[];
-	content?: any; // JSON type for rich content
 	createdAt: string;
 	updatedAt: string;
 }

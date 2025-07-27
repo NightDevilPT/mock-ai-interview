@@ -15,6 +15,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import React, { useCallback, useEffect, useState } from "react";
 import { useSession } from "@/components/providers/session-form-provider";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { ContentRenderer } from "@/components/molecules/content-render-container";
 
 export const MultipleChoiceQuestionComponent: React.FC = () => {
 	const {
@@ -100,7 +101,7 @@ export const MultipleChoiceQuestionComponent: React.FC = () => {
 	}
 
 	return (
-		<div className="space-y-4">
+		<div className="">
 			{/* Header with Submit Button */}
 			<div className="flex items-center justify-between">
 				<Badge variant="outline" className="flex items-center gap-1">
@@ -111,7 +112,7 @@ export const MultipleChoiceQuestionComponent: React.FC = () => {
 				<Button
 					onClick={handleSubmitAnswer}
 					disabled={!hasSelection || isSubmitting}
-					className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white disabled:bg-gray-400"
+					className="flex items-center gap-2 text-white disabled:bg-gray-400"
 				>
 					{isSubmitting ? (
 						<>
@@ -147,8 +148,14 @@ export const MultipleChoiceQuestionComponent: React.FC = () => {
 				</Alert>
 			)}
 
+			{currentQuestion.content && currentQuestion.content.length > 0 && (
+				<ContentRenderer
+					content={currentQuestion.content}
+					className=""
+				/>
+			)}
 			{/* Options */}
-			<Card className="p-6">
+			<Card className="border-0 p-0 dark:shadow-none">
 				<RadioGroup
 					value={selectedOption}
 					onValueChange={handleOptionChange}

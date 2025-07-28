@@ -1,4 +1,4 @@
-import { Session, SessionResponse } from "@/interface/interview-session.interface";
+import { ContentBlock, Session, SessionResponse } from "@/interface/interview-session.interface";
 import prisma from "@/lib/prisma";
 import { withTokenValidation } from "@/middlewares/cookie-validate";
 import { withRequestTiming } from "@/middlewares/with-timestemp";
@@ -64,10 +64,8 @@ function getSessionByIdHandler(params: Promise<{ id: string }>) {
                 isPublic: session.isPublic,
                 shareToken: session.shareToken ?? null,
                 status: session.status,
-                totalQuestions:
-                    session.totalQuestions ?? session.questions.length,
-                totalPoints:
-                    session.totalPoints ??
+                totalQuestions: session.totalQuestions ?? session.questions.length,
+                totalPoints: session.totalPoints ??
                     session.questions.reduce(
                         (sum, q) => sum + (q.points ?? 0),
                         0
@@ -95,12 +93,12 @@ function getSessionByIdHandler(params: Promise<{ id: string }>) {
                     constraints: q.constraints ?? null,
                     hints: q.hints ?? [],
                     tags: q.tags ?? [],
-                    content: q.content ?? null,
+                    content: (q.content as unknown as ContentBlock) ?? null,
                     createdAt: q.createdAt.toISOString(),
                     updatedAt: q.updatedAt.toISOString(),
                 })),
                 _count: session._count,
-            } as Session;
+            } as unknown as Session;
 
             return NextResponse.json(
                 {

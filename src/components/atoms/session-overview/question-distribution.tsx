@@ -22,7 +22,7 @@ const QuestionDistribution: React.FC<QuestionDistributionProps> = ({
 	getDifficultyConfig,
 }) => {
 	return (
-		<Card className="gap-0">
+		<Card className="gap-0 bg-transparent">
 			<CardHeader className="pb-3">
 				<CardTitle className="flex items-center text-xl">
 					<BookOpen className="h-6 w-6 mr-3 text-muted-foreground" />
@@ -45,9 +45,9 @@ const QuestionDistribution: React.FC<QuestionDistributionProps> = ({
 									className="text-center space-y-4"
 								>
 									<div
-										className={`p-6 rounded-2xl bg-gradient-to-br ${config.bgGradient} border-white/50`}
+										className={`p-6 rounded-2xl bg-gradient-to-br border`}
 									>
-										<div className="text-3xl font-bold text-slate-800 mb-2">
+										<div className="text-3xl font-bold mb-2">
 											{count}
 										</div>
 										<Badge

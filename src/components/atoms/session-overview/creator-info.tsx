@@ -17,7 +17,7 @@ const CreatorInfo: React.FC<CreatorInfoProps> = ({
 	updatedAt,
 }) => {
 	return (
-		<Card>
+		<Card className="bg-transparent">
 			<CardHeader>
 				<CardTitle className="flex items-center text-lg">
 					<User className="h-5 w-5 mr-2 text-muted-foreground" />
@@ -28,7 +28,7 @@ const CreatorInfo: React.FC<CreatorInfoProps> = ({
 				<div className="flex items-start space-x-4">
 					<Avatar className="h-16 w-16 border-4 border-white shadow-lg">
 						<AvatarImage src={creator.avatar || ""} />
-						<AvatarFallback className="bg-gradient-to-br from-blue-500 to-purple-600 text-white text-lg font-semibold">
+						<AvatarFallback className="bg-primary text-white text-lg font-semibold">
 							{creator.firstName[0]}
 							{creator.lastName[0]}
 						</AvatarFallback>

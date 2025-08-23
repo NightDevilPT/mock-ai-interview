@@ -37,7 +37,7 @@ const ConfigItemCard: React.FC<{
 	value?: string;
 	badge?: React.ReactNode;
 }> = ({ icon: Icon, label, value, badge }) => (
-	<Card>
+	<Card className="bg-transparent">
 		<CardContent>
 			<div className="flex items-center justify-between">
 				<div className="flex items-center space-x-3">
@@ -49,7 +49,7 @@ const ConfigItemCard: React.FC<{
 					</span>
 				</div>
 				{badge || (
-					<Badge variant="outline" className="font-medium">
+					<Badge variant="outline" className="font-medium capitalize">
 						{value}
 					</Badge>
 				)}
@@ -67,7 +67,7 @@ const QuestionTypesCard: React.FC<{
 		label: string;
 	};
 }> = ({ questionTypes, getQuestionTypeConfig }) => (
-	<Card className="dark:bg-secondary gap-0">
+	<Card className="bg-transparent gap-0">
 		<CardHeader className="pb-2">
 			<CardTitle className="flex items-center text-lg font-semibold">
 				<div className="rounded-lg mr-3">
@@ -83,9 +83,9 @@ const QuestionTypesCard: React.FC<{
 					return (
 						<Badge
 							key={type}
-							className={`${config.color} px-4 py-2 border font-medium`}
+							variant="outline"
+							className={`px-4 py-2 font-medium capitalize bg-transparent border`}
 						>
-							<span className="mr-2">{config.icon}</span>
 							{config.label}
 						</Badge>
 					);
@@ -99,7 +99,7 @@ const QuestionTypesCard: React.FC<{
 const FocusAreasCard: React.FC<{
 	focusAreas: string[];
 }> = ({ focusAreas }) => (
-	<Card className="dark:bg-secondary gap-0">
+	<Card className="bg-transparent gap-0">
 		<CardHeader className="pb-3">
 			<CardTitle className="flex items-center text-lg font-semibold">
 				<div className="p-2 bg-emerald-100 rounded-lg mr-3">
@@ -162,7 +162,7 @@ const SessionConfiguration: React.FC<SessionConfigurationProps> = ({
 	];
 
 	return (
-		<Card className="border dark:border-0 overflow-hidden gap-2">
+		<Card className="overflow-hidden gap-2 bg-transparent">
 			<CardHeader>
 				<CardTitle className="flex items-center text-xl pb-2 font-bold justify-between">
 					<div className="rounded-lg mr-3 flex justify-center items-center gap-4">

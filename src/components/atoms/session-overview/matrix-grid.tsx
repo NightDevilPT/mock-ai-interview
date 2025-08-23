@@ -21,7 +21,6 @@ const MetricsGrid: React.FC<MetricsGridProps> = ({
 			textColors: {
 				label: "text-blue-700/80",
 				value: "text-blue-900",
-				bg: "bg-blue-600",
 			},
 		},
 		{
@@ -32,7 +31,6 @@ const MetricsGrid: React.FC<MetricsGridProps> = ({
 			textColors: {
 				label: "text-amber-700/80",
 				value: "text-amber-900",
-				bg: "bg-amber-600",
 			},
 		},
 		{
@@ -43,7 +41,6 @@ const MetricsGrid: React.FC<MetricsGridProps> = ({
 			textColors: {
 				label: "text-emerald-700/80",
 				value: "text-emerald-900",
-				bg: "bg-emerald-600",
 			},
 		},
 		{
@@ -54,7 +51,6 @@ const MetricsGrid: React.FC<MetricsGridProps> = ({
 			textColors: {
 				label: "text-purple-700/80",
 				value: "text-purple-900",
-				bg: "bg-purple-600",
 			},
 		},
 	];
@@ -67,7 +63,6 @@ const MetricsGrid: React.FC<MetricsGridProps> = ({
 					title={metric.title}
 					value={metric.value}
 					icon={metric.icon}
-					gradient={metric.gradient}
 					textColors={metric.textColors}
 				/>
 			))}
